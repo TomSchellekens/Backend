@@ -39,7 +39,7 @@ namespace Quickstarts.Backend
                     // Wait for some DataChange notifications from MonitoredItems
                     await Task.Delay(20_000);
 
-                    uaClient.Disconnect();
+                    //uaClient.Disconnect();
                 }
                 else
                 {

@@ -174,7 +174,9 @@ namespace Quickstarts.Backend
                     // BrowseName of ServerStatus_StartTime
                     new ReadValueId() { NodeId = Variables.Server_ServerStatus_StartTime, AttributeId = Attributes.BrowseName },
                     // Value of ServerStatus_StartTime
-                    new ReadValueId() { NodeId = Variables.Server_ServerStatus_StartTime, AttributeId = Attributes.Value }
+                    new ReadValueId() { NodeId = Variables.Server_ServerStatus_StartTime, AttributeId = Attributes.Value },
+					
+                    new ReadValueId() {NodeId = @"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_RealTemp""", AttributeId = Attributes.Value}
                 };
 
                 // Read the node attributes
@@ -191,11 +193,12 @@ namespace Quickstarts.Backend
 
                 // Validate the results
                 m_validateResponse(resultsValues, nodesToRead);
-
+                var Id = 0;
                 // Display the results.
                 foreach (DataValue result in resultsValues)
                 {
-                    m_output.WriteLine("Read Value = {0} , StatusCode = {1}", result.Value, result.StatusCode);
+                    m_output.WriteLine("{0}---------- Read Value = {1} , StatusCode = {2}",Id, result.Value, result.StatusCode);
+                    Id++;
                 }
                 #endregion
 
