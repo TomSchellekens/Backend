@@ -43,7 +43,7 @@ namespace Quickstarts.ConsoleReferenceClient
                 }
                 else
                 {
-                    console.WriteLine("Could not connect to server!");
+                    console.WriteLine("Hallo");
                 }
 
                 console.WriteLine("\nProgram ended.");
