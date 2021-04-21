@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 using Opc.Ua;
 using Opc.Ua.Client;
 
-namespace Quickstarts.ConsoleReferenceClient
+namespace Quickstarts.Backend
 {
     /// <summary>
     /// OPC UA Client with examples of basic functionality.

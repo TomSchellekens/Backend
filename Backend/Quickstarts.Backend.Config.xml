@@ -4,9 +4,9 @@
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
   xmlns="http://opcfoundation.org/UA/SDK/Configuration.xsd"
 >
-  <ApplicationName>Quickstart Console Reference Client</ApplicationName>
-  <ApplicationUri>urn:localhost:Quickstarts:Console ReferenceClient</ApplicationUri>
-  <ProductUri>uri:opcfoundation.org:Quickstarts:Console ReferenceClient</ProductUri>
+  <ApplicationName>Quickstart Backend</ApplicationName>
+  <ApplicationUri>urn:localhost:Quickstarts:Backend</ApplicationUri>
+  <ProductUri>uri:opcfoundation.org:Quickstarts:Backend</ProductUri>
   <ApplicationType>Client_1</ApplicationType>
   
   <SecurityConfiguration>
@@ -15,7 +15,7 @@
     <ApplicationCertificate>
       <StoreType>Directory</StoreType>
       <StorePath>%CommonApplicationData%\OPC Foundation\pki\own</StorePath>
-      <SubjectName>CN=Quickstart Console Reference Client, C=US, S=Arizona, O=OPC Foundation, DC=localhost</SubjectName>
+      <SubjectName>CN=Quickstart Backend, C=US, S=Arizona, O=OPC Foundation, DC=localhost</SubjectName>
     </ApplicationCertificate>
 
    <!-- Where the issuer certificate are stored (certificate authorities) -->
@@ -70,7 +70,7 @@
   </Extensions>
 
   <TraceConfiguration>
-    <OutputFilePath>%CommonApplicationData%\OPC Foundation\Logs\Quickstarts.ConsoleReferenceClient.log.txt</OutputFilePath>
+    <OutputFilePath>%CommonApplicationData%\OPC Foundation\Logs\Quickstarts.Backend.log.txt</OutputFilePath>
     <DeleteOnLoad>true</DeleteOnLoad>
     <!-- Show Only Errors -->
     <!-- <TraceMasks>1</TraceMasks> -->

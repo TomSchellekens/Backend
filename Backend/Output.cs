@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quickstarts.ConsoleReferenceClient
+namespace Quickstarts.Backend
 {
     public interface IOutput
     {

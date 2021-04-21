@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Opc.Ua;
 using Opc.Ua.Configuration;
 
-namespace Quickstarts.ConsoleReferenceClient
+namespace Quickstarts.Backend
 {
     public static class Program
     {
@@ -19,7 +19,7 @@ namespace Quickstarts.ConsoleReferenceClient
                 application.ApplicationType = ApplicationType.Client;
 
                 // load the application configuration.
-                await application.LoadApplicationConfiguration("ConsoleReferenceClient.Config.xml", silent: false);
+                await application.LoadApplicationConfiguration("Quickstarts.Backend.Config.xml", silent: false);
                 // check the application certificate.
                 await application.CheckApplicationInstanceCertificate(silent: false, minimumKeySize: 0);
 
@@ -53,7 +53,7 @@ namespace Quickstarts.ConsoleReferenceClient
             catch (Exception ex)
             {
                 console.WriteLine(ex.Message);
-                Console.ReadKey();
+				Console.ReadKey();
             }
         }
     }
