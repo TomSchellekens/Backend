@@ -63,7 +63,8 @@ namespace Quickstarts.Backend
         /// <summary>
         /// Gets or sets the server URL.
         /// </summary>
-        public string ServerUrl { get; set; } = "opc.tcp://192.168.1.145:4840";
+        //public string ServerUrl { get; set; } = "opc.tcp://192.168.1.145:4840";
+        public string ServerUrl { get; set; } = "opc.tcp://192.168.0.10:4840";
         #endregion
 
         #region Public Methods
@@ -388,7 +389,7 @@ namespace Quickstarts.Backend
                 // Define Subscription parameters
                 Subscription subscription = new Subscription(m_session.DefaultSubscription);
 
-                subscription.DisplayName = "Console ReferenceClient Subscription";
+                subscription.DisplayName = "Console Backend Subscription";
                 subscription.PublishingEnabled = true;
                 subscription.PublishingInterval = 1000;
 
