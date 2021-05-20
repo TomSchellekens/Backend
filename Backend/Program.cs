@@ -37,35 +37,8 @@ namespace Quickstarts.Backend
                     //UAClient uaClient = new UAClient(application.ApplicationConfiguration);
                     application.ApplicationConfiguration.CertificateValidator.CertificateValidation += CertificateValidation;
 
-                    //makeSession(application, endpoint);
+                    makeSession(application, endpoint);
 
-
-
-                    //start session to the OPC server
-                    using (var session = Session.Create(application.ApplicationConfiguration, endpoint, false, false, application.ApplicationName, 30 * 60 * 1000, new UserIdentity(), null).GetAwaiter().GetResult())
-                    {
-                        var subscription = new Subscription(session.DefaultSubscription) { PublishingInterval = 20 };
-
-                        //Start read
-                        var startRead = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
-                        startRead.Notification += (sender, e) => OnStartReading(sender, e, session);
-                        subscription.AddItem(startRead);
-
-                        //Add subscription to de session
-                        session.AddSubscription(subscription);
-                        subscription.Create();
-                        session.PublishError += (sender, e) => { Console.WriteLine("Error detected."); };
-
-                        Console.WriteLine("Connected.");
-
-
-
-
-                        while (!session.KeepAliveStopped)
-                        {
-                            Thread.Sleep(1000);
-                        }
-                    }
                 }
                 catch (Exception e)
                 {
@@ -77,15 +50,53 @@ namespace Quickstarts.Backend
 
         private static void makeSession(ApplicationInstance application, ConfiguredEndpoint endpoint)
         {
-            bool currentState;
+            //start session to the OPC server
             using (var session = Session.Create(application.ApplicationConfiguration, endpoint, false, false, application.ApplicationName, 30 * 60 * 1000, new UserIdentity(), null).GetAwaiter().GetResult())
             {
+                Console.WriteLine("Connected.");
+                var subscription = new Subscription(session.DefaultSubscription) { PublishingInterval = 500 };
 
+                //Invoeren Order
+                var enterOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                enterOrder.Notification += (sender, e) => OnEnteringOrder(sender, e, session);
+                subscription.AddItem(enterOrder);
 
+                //Vrijgeven Order
+                var realeaseOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                realeaseOrder.Notification += (sender, e) => OnReleasingOrder(sender, e, session);
+                subscription.AddItem(realeaseOrder);
 
+                //Starten Order
+                var startOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                startOrder.Notification += (sender, e) => OnStartingOrder(sender, e, session);
+                subscription.AddItem(startOrder);
+
+                //End order
+                var endOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                endOrder.Notification += (sender, e) => OnEndingOrder(sender, e, session);
+                subscription.AddItem(endOrder);
+
+                //start job
+                var startJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                startJob.Notification += (sender, e) => OnStartingJob(sender, e, session);
+                subscription.AddItem(startJob);
+
+                //end job
+                var endJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                endJob.Notification += (sender, e) => OnEndingJob(sender, e, session);
+                subscription.AddItem(endJob);
+
+                //Add subscription to de session
+                session.AddSubscription(subscription);
+                subscription.Create();
+                session.PublishError += (sender, e) => { Console.WriteLine("Error detected."); };
+
+                while (!session.KeepAliveStopped)
+                {
+                    Thread.Sleep(1000);
+                }
             }
         }
-
 
         private static void CertificateValidation(CertificateValidator sender, CertificateValidationEventArgs e)
         {
@@ -112,67 +123,82 @@ namespace Quickstarts.Backend
             e.AcceptAll = certificateAccepted;
         }
 
-        private static void OnStartReading(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+
+        private static void OnEnteringOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
         {
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
-                    // Write the configured nodes
-                    WriteValueCollection nodesToWrite = new WriteValueCollection();
-
-                    //make random array
-                    int[] arr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-                    for (int i = 0; i < arr.Length; i++)
-                    {
-                        WriteValue intWriteVal = new WriteValue();
-                        intWriteVal.NodeId = new NodeId(@"ns=3;s=""OPC_UA_Data"".""pos_x""[" + i + "]");
-                        intWriteVal.AttributeId = Attributes.Value;
-                        intWriteVal.Value = new DataValue();
-                        intWriteVal.Value.Value = arr[i];
-                        nodesToWrite.Add(intWriteVal);
-                    }
-                    // Write the node attributes
-                    StatusCodeCollection results = null;
-                    DiagnosticInfoCollection diagnosticInfos;
-
-                    // Call Write Service
-                    session.Write(null,
-                                    nodesToWrite,
-                                    out results,
-                                    out diagnosticInfos);
+					Console.WriteLine(value.Value.ToString());
                 }
-                if ((bool)value.Value == false)
-                {
-                    // Write the configured nodes
-                    WriteValueCollection nodesToWrite = new WriteValueCollection();
-
-                    //make random array
-                    int[] arr = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-                    for (int i = 0; i < arr.Length; i++)
-                    {
-                        WriteValue intWriteVal = new WriteValue();
-                        intWriteVal.NodeId = new NodeId(@"ns=3;s=""OPC_UA_Data"".""pos_x""[" + i + "]");
-                        intWriteVal.AttributeId = Attributes.Value;
-                        intWriteVal.Value = new DataValue();
-                        intWriteVal.Value.Value = arr[i];
-                        nodesToWrite.Add(intWriteVal);
-                    }
-                    // Write the node attributes
-                    StatusCodeCollection results = null;
-                    DiagnosticInfoCollection diagnosticInfos;
-
-                    // Call Write Service
-                    session.Write(null,
-                                    nodesToWrite,
-                                    out results,
-                                    out diagnosticInfos);
-                }
-
             }
         }
+
+        private static void OnReleasingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+		{
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                }
+            }
+        }
+
+        private static void OnStartingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                }
+            }
+        }
+
+        private static void OnEndingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                }
+            }
+        }
+
+        private static void OnStartingJob(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                }
+            }
+        }
+
+        private static void OnEndingJob(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                }
+            }
+        }
+
     }
 }
+
+
+
+
