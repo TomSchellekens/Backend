@@ -56,33 +56,33 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Connected.");
                 var subscription = new Subscription(session.DefaultSubscription) { PublishingInterval = 500 };
 
-                //Invoeren Order
-                var enterOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                //Invoeren Order 
+                var enterOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "InvoerenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""invoerenOrder""" };
                 enterOrder.Notification += (sender, e) => OnEnteringOrder(sender, e, session);
                 subscription.AddItem(enterOrder);
 
                 //Vrijgeven Order
-                var realeaseOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                var realeaseOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "VrijgevenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""vrijgevenOrder""" };
                 realeaseOrder.Notification += (sender, e) => OnReleasingOrder(sender, e, session);
                 subscription.AddItem(realeaseOrder);
 
                 //Starten Order
-                var startOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                var startOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""startenOrder""" };
                 startOrder.Notification += (sender, e) => OnStartingOrder(sender, e, session);
                 subscription.AddItem(startOrder);
 
                 //End order
-                var endOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                var endOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "EndOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""endOrder""" };
                 endOrder.Notification += (sender, e) => OnEndingOrder(sender, e, session);
                 subscription.AddItem(endOrder);
 
                 //start job
-                var startJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                var startJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartJob", StartNodeId = @"ns=3;s=""db_OPCdata"".""startenJob""" };
                 startJob.Notification += (sender, e) => OnStartingJob(sender, e, session);
                 subscription.AddItem(startJob);
 
                 //end job
-                var endJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "Test", StartNodeId = @"ns=3;s=""Test""" };
+                var endJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "EndJob", StartNodeId = @"ns=3;s=""db_OPCdata"".""endJob""" };
                 endJob.Notification += (sender, e) => OnEndingJob(sender, e, session);
                 subscription.AddItem(endJob);
 
@@ -90,6 +90,7 @@ namespace Quickstarts.Backend
                 session.AddSubscription(subscription);
                 subscription.Create();
                 session.PublishError += (sender, e) => { Console.WriteLine("Error detected."); };
+				
 
                 while (!session.KeepAliveStopped)
                 {

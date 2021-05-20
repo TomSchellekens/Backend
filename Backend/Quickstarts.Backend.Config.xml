@@ -56,7 +56,7 @@
   </TransportQuotas>
 
   <ClientConfiguration>
-    <DefaultSessionTimeout>60000</DefaultSessionTimeout>
+    <DefaultSessionTimeout>0</DefaultSessionTimeout>
     <WellKnownDiscoveryUrls>
       <ua:String>opc.tcp://{0}:4840</ua:String>
       <ua:String>http://{0}:52601/UADiscovery</ua:String>
