@@ -202,7 +202,29 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
-				Console.WriteLine(value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
 
@@ -211,6 +233,28 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -219,6 +263,28 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
 
             }
         }
@@ -228,6 +294,28 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -236,6 +324,28 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -244,6 +354,28 @@ namespace Quickstarts.Backend
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                int state = Convert.ToInt32(value.Value);
+
+                switch (state)
+                {
+                    case 10:
+                        Console.WriteLine("Idle");
+                        break;
+                    case 30:
+                        Console.WriteLine("Execute");
+                        break;
+                    case 50:
+                        Console.WriteLine("Complete");
+                        break;
+                    case 70:
+                        Console.WriteLine("Hold");
+                        break;
+                    case 100:
+                        Console.WriteLine("Stopped");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
