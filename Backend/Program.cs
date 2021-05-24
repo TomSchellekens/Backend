@@ -180,6 +180,26 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+                    float bloem = 52500;
+                    float boter = 1575;
+                    float gist = 525;
+                    float meel = 31500;
+                    float suiker = 10500;
+                    float water = 31500;
+                    float zout = 105000;
+
+                    IList<NodeId> nodeIds = new List<NodeId>();
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_bloem"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_boter"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_gist"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_meel"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout"""));
+                    
+
+
+
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
                     Console.WriteLine(value.Value.ToString());
                     WriteValue bWriteValue = new WriteValue();
@@ -188,6 +208,55 @@ namespace Quickstarts.Backend
                     bWriteValue.Value = new DataValue();
                     bWriteValue.Value.Value = true;
                     nodesToWrite.Add(bWriteValue);
+
+                    WriteValue FloatWriteValue_1 = new WriteValue();
+                    FloatWriteValue_1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_bloem""");
+                    FloatWriteValue_1.AttributeId = Attributes.Value;
+                    FloatWriteValue_1.Value = new DataValue();
+                    FloatWriteValue_1.Value.Value = bloem;
+                    nodesToWrite.Add(FloatWriteValue_1);
+
+                    WriteValue FloatWriteValue_2 = new WriteValue();
+                    FloatWriteValue_2.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_boter""");
+                    FloatWriteValue_2.AttributeId = Attributes.Value;
+                    FloatWriteValue_2.Value = new DataValue();
+                    FloatWriteValue_2.Value.Value = boter;
+                    nodesToWrite.Add(FloatWriteValue_2);
+
+                    WriteValue FloatWriteValue_3 = new WriteValue();
+                    FloatWriteValue_3.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_gist""");
+                    FloatWriteValue_3.AttributeId = Attributes.Value;
+                    FloatWriteValue_3.Value = new DataValue();
+                    FloatWriteValue_3.Value.Value = gist;
+                    nodesToWrite.Add(FloatWriteValue_3);
+
+                    WriteValue FloatWriteValue_4 = new WriteValue();
+                    FloatWriteValue_4.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_meel""");
+                    FloatWriteValue_4.AttributeId = Attributes.Value;
+                    FloatWriteValue_4.Value = new DataValue();
+                    FloatWriteValue_4.Value.Value = meel;
+                    nodesToWrite.Add(FloatWriteValue_4);
+
+                    WriteValue FloatWriteValue_5 = new WriteValue();
+                    FloatWriteValue_5.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker""");
+                    FloatWriteValue_5.AttributeId = Attributes.Value;
+                    FloatWriteValue_5.Value = new DataValue();
+                    FloatWriteValue_5.Value.Value = suiker;
+                    nodesToWrite.Add(FloatWriteValue_5);
+
+                    WriteValue FloatWriteValue_6 = new WriteValue();
+                    FloatWriteValue_6.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water""");
+                    FloatWriteValue_6.AttributeId = Attributes.Value;
+                    FloatWriteValue_6.Value = new DataValue();
+                    FloatWriteValue_6.Value.Value = water;
+                    nodesToWrite.Add(FloatWriteValue_6);
+
+                    WriteValue FloatWriteValue_7 = new WriteValue();
+                    FloatWriteValue_7.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout""");
+                    FloatWriteValue_7.AttributeId = Attributes.Value;
+                    FloatWriteValue_7.Value = new DataValue();
+                    FloatWriteValue_7.Value.Value = zout;
+                    nodesToWrite.Add(FloatWriteValue_7);
 
                     // Write the node attributes
                     StatusCodeCollection results = null;
@@ -211,6 +280,11 @@ namespace Quickstarts.Backend
                     }
                 }
             }
+        }
+
+        private static void writeNode(Session session, List<NodeId>nodeIds)
+        {
+
         }
 
         private static void OnEndingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
