@@ -30,7 +30,8 @@ namespace Quickstarts.Backend
 
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
 
@@ -76,15 +77,38 @@ namespace Quickstarts.Backend
                 endOrder.Notification += (sender, e) => OnEndingOrder(sender, e, session);
                 subscription.AddItem(endOrder);
 
-                //start job
-                var startJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartJob", StartNodeId = @"ns=3;s=""db_OPCdata"".""startenJob""" };
-                startJob.Notification += (sender, e) => OnStartingJob(sender, e, session);
-                subscription.AddItem(startJob);
+                //subscriptions on packml status
 
-                //end job
-                var endJob = new MonitoredItem(subscription.DefaultItem) { DisplayName = "EndJob", StartNodeId = @"ns=3;s=""db_OPCdata"".""endJob""" };
-                endJob.Notification += (sender, e) => OnEndingJob(sender, e, session);
-                subscription.AddItem(endJob);
+                
+                //PackML status deegverwerking lijn 1
+                var deegvwkLijn1 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateDeegL1", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""O_i_State""" };
+                deegvwkLijn1.Notification += (sender, e) => OnStateDeegLijn1(sender, e, session);
+                subscription.AddItem(deegvwkLijn1);
+
+                //PackML status bakken lijn 1 
+                var bakkenLijn1 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateBakkenL1", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""O_i_State""" };
+                bakkenLijn1.Notification += (sender, e) => OnStateBakLijn1(sender, e, session);
+                subscription.AddItem(bakkenLijn1);
+
+                //PackML status verpakken lijn 1 
+                var verpakkenLijn1 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateVerpakkenL1", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""O_i_State""" };
+                verpakkenLijn1.Notification += (sender, e) => OnStateVerpakkenLijn1(sender, e, session);
+                subscription.AddItem(verpakkenLijn1);
+
+                //PackML status deegverwerking lijn 2
+                var deegvwkLijn2 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateDeegL2", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""O_i_State""" };
+                deegvwkLijn2.Notification += (sender, e) => OnStateDeegLijn2(sender, e, session);
+                subscription.AddItem(deegvwkLijn2);
+
+                //PackML status bakken lijn 2
+                var bakkenLijn2 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateBakkenL2", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""O_i_State""" };
+                bakkenLijn2.Notification += (sender, e) => OnStateBakLijn2(sender, e, session);
+                subscription.AddItem(bakkenLijn2);
+
+                //PackML status verpakken lijn 2
+                var verpakkenLijn2 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateVerpakkenL2", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Verpakken"".""O_i_State""" };
+                verpakkenLijn2.Notification += (sender, e) => OnStateVerpakkenLijn2(sender, e, session);
+                subscription.AddItem(verpakkenLijn2);
 
                 //Add subscription to de session
                 session.AddSubscription(subscription);
@@ -173,27 +197,53 @@ namespace Quickstarts.Backend
             }
         }
 
-        private static void OnStartingJob(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        private static void OnStateDeegLijn1(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
         {
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
-                if ((bool)value.Value == true)
-                {
-                    Console.WriteLine(value.Value.ToString());
-                }
+				Console.WriteLine(value.Value);
             }
         }
 
-        private static void OnEndingJob(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        private static void OnStateBakLijn1(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
         {
             foreach (var value in item.DequeueValues())
             {
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
-                if ((bool)value.Value == true)
-                {
-                    Console.WriteLine(value.Value.ToString());
-                }
+            }
+        }
+
+        private static void OnStateVerpakkenLijn1(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+
+            }
+        }
+
+        private static void OnStateDeegLijn2(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+            }
+        }
+
+        private static void OnStateBakLijn2(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+            }
+        }
+
+        private static void OnStateVerpakkenLijn2(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
             }
         }
 
