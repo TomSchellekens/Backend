@@ -265,8 +265,9 @@ namespace Quickstarts.Backend
                         IList<NodeId> nodeIds = new List<NodeId>();
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startenOrder"""));
 
-                        object[] values = { true, false };
+                        object[] values = { true, false, false };
 
                         WriteValueCollection nodesToWrite = new WriteValueCollection();
 
@@ -395,6 +396,7 @@ namespace Quickstarts.Backend
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
+                        
 
                         object[] values = { false, true, true, true };
 
@@ -436,14 +438,14 @@ namespace Quickstarts.Backend
 
                         WriteValueCollection nodesToWrite1 = new WriteValueCollection();
 
-                        for (int i = 0; i < nodeIds.Count; i++)
+                        for (int i = 0; i < nodeIds1.Count; i++)
                         {
                             WriteValue bWriteValue = new WriteValue();
                             bWriteValue.NodeId = nodeIds1[i];
                             bWriteValue.AttributeId = Attributes.Value;
                             bWriteValue.Value = new DataValue();
                             bWriteValue.Value.Value = values1[i];
-                            nodesToWrite.Add(bWriteValue);
+                            nodesToWrite1.Add(bWriteValue);
                         }
 
                         // Write the node attributes
