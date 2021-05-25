@@ -12,45 +12,7 @@ namespace Quickstarts.Backend
     public static class Program
     {
         static void Main(string[] args)
-        {
-            //SQL data 
-            SqlData sqlData = new SqlData();
-            sqlData.checkConnection();
-            DataTable data = sqlData.getIngredients();
-
-            //row then colum
-			for (int i = 0; i < data.Rows.Count; i++)
-			{
-                string state = data.Rows[i][0].ToString();
-
-				switch (state)
-				{
-                    case "Bloem":
-						Console.WriteLine("Bloem = {0}", data.Rows[i][1]);
-                        break;
-                    case "Gist":
-                        Console.WriteLine("Gist = {0}", data.Rows[i][1]);
-                        break;
-                    case "Meel":
-                        Console.WriteLine("Meel = {0}", data.Rows[i][1]);
-                        break;
-                    case "Water":
-                        Console.WriteLine("Water = {0}", data.Rows[i][1]);
-                        break;
-                    case "Suiker":
-                        Console.WriteLine("Suiker = {0}", data.Rows[i][1]);
-                        break;
-                    case "Zout":
-                        Console.WriteLine("Zout = {0}", data.Rows[i][1]);
-                        break;
-                    case "Boter":
-                        Console.WriteLine("Boter = {0}", data.Rows[i][1]);
-                        break;
-                    default:
-						break;
-				}
-			}
-            
+        {        
 
             while (true)
             {
@@ -99,15 +61,6 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Connected.");
                 var subscription = new Subscription(session.DefaultSubscription) { PublishingInterval = 500 };
 
-                //Invoeren Order 
-                var enterOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "InvoerenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""invoerenOrder""" };
-                enterOrder.Notification += (sender, e) => OnEnteringOrder(sender, e, session);
-                subscription.AddItem(enterOrder);
-
-                //Vrijgeven Order
-                var realeaseOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "VrijgevenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""vrijgevenOrder""" };
-                realeaseOrder.Notification += (sender, e) => OnReleasingOrder(sender, e, session);
-                subscription.AddItem(realeaseOrder);
 
                 //Starten Order
                 var startOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""startenOrder""" };
@@ -119,9 +72,7 @@ namespace Quickstarts.Backend
                 endOrder.Notification += (sender, e) => OnEndingOrder(sender, e, session);
                 subscription.AddItem(endOrder);
 
-                //subscriptions on packml status
-
-                
+                //subscriptions on packml status               
                 //PackML status deegverwerking lijn 1
                 var deegvwkLijn1 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StateDeegL1", StartNodeId = @"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""O_i_State""" };
                 deegvwkLijn1.Notification += (sender, e) => OnStateDeegLijn1(sender, e, session);
@@ -190,31 +141,6 @@ namespace Quickstarts.Backend
             e.AcceptAll = certificateAccepted;
         }
 
-
-        private static void OnEnteringOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
-        {
-            foreach (var value in item.DequeueValues())
-            {
-                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
-                if ((bool)value.Value == true)
-                {
-					Console.WriteLine(value.Value.ToString());
-                }
-            }
-        }
-
-        private static void OnReleasingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
-		{
-            foreach (var value in item.DequeueValues())
-            {
-                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
-                if ((bool)value.Value == true)
-                {
-                    Console.WriteLine(value.Value.ToString());
-                }
-            }
-        }
-
         private static void OnStartingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
         {
             foreach (var value in item.DequeueValues())
@@ -222,17 +148,53 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+                    //Ingedrienten
+                    float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
 
-					
-                    //SQL gedeeld waar de variabelen uitgelezen worden
-                    float bloem = 52500;
-                    float boter = 1575;
-                    float gist = 525;
-                    float meel = 31500;
-                    float suiker = 10500;
-                    float water = 31500;
-                    float zout = 105000;
+                    //SQL data 
+                    SqlData sqlData = new SqlData();
+                    sqlData.checkConnection();
+                    DataTable data = sqlData.getIngredients();
 
+                    //row then colum
+                    for (int i = 0; i < data.Rows.Count; i++)
+                    {
+                        string state = data.Rows[i][0].ToString();
+
+                        switch (state)
+                        {
+                            case "Bloem":
+                                bloem = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Bloem = {0}", bloem);
+                                break;
+                            case "Gist":
+                                gist = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Gist = {0}", gist);
+                                break;
+                            case "Meel":
+                                meel = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Meel = {0}", meel);
+                                break;
+                            case "Water":
+                                water = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Water = {0}", water);
+                                break;
+                            case "Suiker":
+                                suiker = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Suiker = {0}", suiker);
+                                break;
+                            case "Zout":
+                                zout = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Zout = {0}", zout);
+                                break;
+                            case "Boter":
+                                boter = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Boter = {0}", boter);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
 
                     IList<NodeId> nodeIds = new List<NodeId>();
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
