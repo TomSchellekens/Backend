@@ -20,16 +20,13 @@ namespace Quickstarts.Backend
             
             DataTable data = sqlData.getIngredients();
             //row then colum
-            var test = data.Rows[6][0];
-            Console.WriteLine(sqlData.getIngredients());
+            var test = data.Rows[0][1];
+            Console.WriteLine(test);
 
             while (true)
             {
                 try
                 {
-                    
-
-
 
                     Console.WriteLine("Trying to connect to OPC...");
 
