@@ -4,6 +4,8 @@ using System.Threading;
 using Opc.Ua;
 using Opc.Ua.Client;
 using Opc.Ua.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Quickstarts.Backend
 {
@@ -15,6 +17,10 @@ namespace Quickstarts.Backend
             {
                 try
                 {
+
+
+
+
                     Console.WriteLine("Trying to connect...");
 
                     // Define the UA Client application
@@ -180,6 +186,7 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+                    //SQL gedeeld waar de variabelen uitgelezen worden
                     float bloem = 52500;
                     float boter = 1575;
                     float gist = 525;
