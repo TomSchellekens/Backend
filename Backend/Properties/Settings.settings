@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Quickstarts.Backend.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="connectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Server=parallaxautomation.com,59000; Database=Avans_ISA95; User Id=backend; Password=HMe3gFn3B4eeMKLxRuYEX896; Encrypt=True; TrustServerCertificate=True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -13,15 +13,25 @@ namespace Quickstarts.Backend
     {
         static void Main(string[] args)
         {
+            //SQL data 
+            SqlData sqlData = new SqlData();
+
+            sqlData.checkConnection();
+            
+            DataTable data = sqlData.getIngredients();
+            //row then colum
+            var test = data.Rows[6][0];
+            Console.WriteLine(sqlData.getIngredients());
+
             while (true)
             {
                 try
                 {
+                    
 
 
 
-
-                    Console.WriteLine("Trying to connect...");
+                    Console.WriteLine("Trying to connect to OPC...");
 
                     // Define the UA Client application
                     ApplicationInstance application = new ApplicationInstance();

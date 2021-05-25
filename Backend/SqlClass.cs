@@ -19,10 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Data.SqlClient; // Zelf toegevoegd
 
-namespace FrontEnd
+namespace Quickstarts.Backend
 {
     /// <summary>
     /// Class for storing the SQL connection and connection related information.
@@ -51,8 +50,8 @@ namespace FrontEnd
         /// </summary>
         protected void initializeConnectionString()
         {
-            Console.WriteLine("SqlClass : makeConnectionString(): " + strConnectionString);
-            strConnectionString = Properties.Settings.Default.connectionString;            
+            //Console.WriteLine("SqlClass : makeConnectionString(): " + strConnectionString);
+            strConnectionString = Quickstarts.Backend.Properties.Settings.Default.connectionString;            
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace FrontEnd
         /// <returns>SqlConnection</returns>
         protected SqlConnection GetConnection()
         {
-            Console.WriteLine("sqlVerbinding: " + strConnectionString);
+            //Console.WriteLine("sqlVerbinding: " + strConnectionString);
             return new SqlConnection(strConnectionString);
         }
     }
