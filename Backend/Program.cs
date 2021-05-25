@@ -30,8 +30,8 @@ namespace Quickstarts.Backend
 
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
-                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
 
@@ -188,7 +188,9 @@ namespace Quickstarts.Backend
                     float water = 31500;
                     float zout = 105000;
 
+
                     IList<NodeId> nodeIds = new List<NodeId>();
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_bloem"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_boter"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_gist"""));
@@ -196,77 +198,24 @@ namespace Quickstarts.Backend
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout"""));
-                    
 
-
+                    object[] values = {true, bloem, boter, gist, meel, suiker, water, zout };
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
-                    Console.WriteLine(value.Value.ToString());
-                    WriteValue bWriteValue = new WriteValue();
-                    bWriteValue.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start""");
-                    bWriteValue.AttributeId = Attributes.Value;
-                    bWriteValue.Value = new DataValue();
-                    bWriteValue.Value.Value = true;
-                    nodesToWrite.Add(bWriteValue);
 
-                    WriteValue FloatWriteValue_1 = new WriteValue();
-                    FloatWriteValue_1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_bloem""");
-                    FloatWriteValue_1.AttributeId = Attributes.Value;
-                    FloatWriteValue_1.Value = new DataValue();
-                    FloatWriteValue_1.Value.Value = bloem;
-                    nodesToWrite.Add(FloatWriteValue_1);
-
-                    WriteValue FloatWriteValue_2 = new WriteValue();
-                    FloatWriteValue_2.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_boter""");
-                    FloatWriteValue_2.AttributeId = Attributes.Value;
-                    FloatWriteValue_2.Value = new DataValue();
-                    FloatWriteValue_2.Value.Value = boter;
-                    nodesToWrite.Add(FloatWriteValue_2);
-
-                    WriteValue FloatWriteValue_3 = new WriteValue();
-                    FloatWriteValue_3.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_gist""");
-                    FloatWriteValue_3.AttributeId = Attributes.Value;
-                    FloatWriteValue_3.Value = new DataValue();
-                    FloatWriteValue_3.Value.Value = gist;
-                    nodesToWrite.Add(FloatWriteValue_3);
-
-                    WriteValue FloatWriteValue_4 = new WriteValue();
-                    FloatWriteValue_4.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_meel""");
-                    FloatWriteValue_4.AttributeId = Attributes.Value;
-                    FloatWriteValue_4.Value = new DataValue();
-                    FloatWriteValue_4.Value.Value = meel;
-                    nodesToWrite.Add(FloatWriteValue_4);
-
-                    WriteValue FloatWriteValue_5 = new WriteValue();
-                    FloatWriteValue_5.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker""");
-                    FloatWriteValue_5.AttributeId = Attributes.Value;
-                    FloatWriteValue_5.Value = new DataValue();
-                    FloatWriteValue_5.Value.Value = suiker;
-                    nodesToWrite.Add(FloatWriteValue_5);
-
-                    WriteValue FloatWriteValue_6 = new WriteValue();
-                    FloatWriteValue_6.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water""");
-                    FloatWriteValue_6.AttributeId = Attributes.Value;
-                    FloatWriteValue_6.Value = new DataValue();
-                    FloatWriteValue_6.Value.Value = water;
-                    nodesToWrite.Add(FloatWriteValue_6);
-
-                    WriteValue FloatWriteValue_7 = new WriteValue();
-                    FloatWriteValue_7.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout""");
-                    FloatWriteValue_7.AttributeId = Attributes.Value;
-                    FloatWriteValue_7.Value = new DataValue();
-                    FloatWriteValue_7.Value.Value = zout;
-                    nodesToWrite.Add(FloatWriteValue_7);
-
+                    for (int i = 0; i < nodeIds.Count; i++)
+					{
+                        WriteValue bWriteValue = new WriteValue();
+                        bWriteValue.NodeId = nodeIds[i];
+                        bWriteValue.AttributeId = Attributes.Value;
+                        bWriteValue.Value = new DataValue();
+                        bWriteValue.Value.Value = values[i];
+                        nodesToWrite.Add(bWriteValue);
+                    }
+                                  
                     // Write the node attributes
                     StatusCodeCollection results = null;
                     DiagnosticInfoCollection diagnosticInfos;
-
-                    // Call Write Service
-                    session.Write(null,
-                                    nodesToWrite,
-                                    out results,
-                                    out diagnosticInfos);
 
                     // Call Write Service
                     session.Write(null,
@@ -280,11 +229,6 @@ namespace Quickstarts.Backend
                     }
                 }
             }
-        }
-
-        private static void writeNode(Session session, List<NodeId>nodeIds)
-        {
-
         }
 
         private static void OnEndingOrder(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
@@ -317,32 +261,28 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+
+                        IList<NodeId> nodeIds = new List<NodeId>();
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
+
+                        object[] values = { true, false };
+
                         WriteValueCollection nodesToWrite = new WriteValueCollection();
-                        Console.WriteLine(value.Value.ToString());
-                        WriteValue bWriteValue = new WriteValue();
-                        
-                        bWriteValue.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start""");
-                        bWriteValue.AttributeId = Attributes.Value;
-                        bWriteValue.Value = new DataValue();
-                        bWriteValue.Value.Value = true;
-                        nodesToWrite.Add(bWriteValue);
 
-                        WriteValue bWriteValue1 = new WriteValue();
-                        bWriteValue1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start""");
-                        bWriteValue1.AttributeId = Attributes.Value;
-                        bWriteValue1.Value = new DataValue();
-                        bWriteValue1.Value.Value = false;
-                        nodesToWrite.Add(bWriteValue1);
-
+						for (int i = 0; i < nodeIds.Count; i++)
+						{
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
+                      
                         // Write the node attributes
                         StatusCodeCollection results = null;
                         DiagnosticInfoCollection diagnosticInfos;
-
-                        // Call Write Service
-                        session.Write(null,
-                                        nodesToWrite,
-                                        out results,
-                                        out diagnosticInfos);
 
                         // Call Write Service
                         session.Write(null,
@@ -385,31 +325,29 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
-                        WriteValueCollection nodesToWrite = new WriteValueCollection();
-                        Console.WriteLine(value.Value.ToString());
-                        WriteValue bWriteValue = new WriteValue();
-                        bWriteValue.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start""");
-                        bWriteValue.AttributeId = Attributes.Value;
-                        bWriteValue.Value = new DataValue();
-                        bWriteValue.Value.Value = true;
-                        nodesToWrite.Add(bWriteValue);
 
-                        WriteValue bWriteValue1 = new WriteValue();
-                        bWriteValue1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start""");
-                        bWriteValue1.AttributeId = Attributes.Value;
-                        bWriteValue1.Value = new DataValue();
-                        bWriteValue1.Value.Value = false;
-                        nodesToWrite.Add(bWriteValue1);
+                        IList<NodeId> nodeIds = new List<NodeId>();
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
+
+                        object[] values = { true, false };
+
+                        WriteValueCollection nodesToWrite = new WriteValueCollection();
+
+                        for (int i = 0; i < nodeIds.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
+
 
                         // Write the node attributes
                         StatusCodeCollection results = null;
                         DiagnosticInfoCollection diagnosticInfos;
-
-                        // Call Write Service
-                        session.Write(null,
-                                        nodesToWrite,
-                                        out results,
-                                        out diagnosticInfos);
 
                         // Call Write Service
                         session.Write(null,
@@ -450,40 +388,28 @@ namespace Quickstarts.Backend
                         Console.WriteLine("Execute");
                         break;
                     case 50:
-                        Console.WriteLine("Complete"); 
+                        Console.WriteLine("Complete");
+
+                        IList<NodeId> nodeIds = new List<NodeId>();
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
+
+                        object[] values = { false, true, true, true };
+
                         WriteValueCollection nodesToWrite = new WriteValueCollection();
-                        Console.WriteLine(value.Value.ToString());
 
-                        WriteValue bWriteValue3 = new WriteValue();
-                        bWriteValue3.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start""");
-                        bWriteValue3.AttributeId = Attributes.Value;
-                        bWriteValue3.Value = new DataValue();
-                        bWriteValue3.Value.Value = false;
-                        nodesToWrite.Add(bWriteValue3);
-
-                        WriteValue bWriteValue = new WriteValue();
-                        bWriteValue.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset""");
-                        bWriteValue.AttributeId = Attributes.Value;
-                        bWriteValue.Value = new DataValue();
-                        bWriteValue.Value.Value = true;
-                        nodesToWrite.Add(bWriteValue);
-
-                        WriteValue bWriteValue1 = new WriteValue();
-                        bWriteValue1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset""");
-                        bWriteValue1.AttributeId = Attributes.Value;
-                        bWriteValue1.Value = new DataValue();
-                        bWriteValue1.Value.Value = true;
-                        nodesToWrite.Add(bWriteValue1);
-
-                        WriteValue bWriteValue2 = new WriteValue();
-                        bWriteValue2.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset""");
-                        bWriteValue2.AttributeId = Attributes.Value;
-                        bWriteValue2.Value = new DataValue();
-                        bWriteValue2.Value.Value = true;
-                        nodesToWrite.Add(bWriteValue2);
-
-
-
+                        for (int i = 0; i < nodeIds.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
+                                             
                         // Write the node attributes
                         StatusCodeCollection results = null;
                         DiagnosticInfoCollection diagnosticInfos;
@@ -501,31 +427,24 @@ namespace Quickstarts.Backend
 
                         Thread.Sleep(2000);
 
+                        IList<NodeId> nodeIds1 = new List<NodeId>();
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
+
+                        object[] values1 = { false, false, false };
+
                         WriteValueCollection nodesToWrite1 = new WriteValueCollection();
-                        Console.WriteLine(value.Value.ToString());
 
-                        WriteValue bWriteValue_1 = new WriteValue();
-                        bWriteValue_1.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset""");
-                        bWriteValue_1.AttributeId = Attributes.Value;
-                        bWriteValue_1.Value = new DataValue();
-                        bWriteValue_1.Value.Value = false;
-                        nodesToWrite1.Add(bWriteValue_1);
-
-                        WriteValue bWriteValue_2 = new WriteValue();
-                        bWriteValue_2.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset""");
-                        bWriteValue_2.AttributeId = Attributes.Value;
-                        bWriteValue_2.Value = new DataValue();
-                        bWriteValue_2.Value.Value = false;
-                        nodesToWrite1.Add(bWriteValue_2);
-
-                        WriteValue bWriteValue_3 = new WriteValue();
-                        bWriteValue_3.NodeId = new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset""");
-                        bWriteValue_3.AttributeId = Attributes.Value;
-                        bWriteValue_3.Value = new DataValue();
-                        bWriteValue_3.Value.Value = false;
-                        nodesToWrite1.Add(bWriteValue_3);
-
-
+                        for (int i = 0; i < nodeIds.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds1[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values1[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
 
                         // Write the node attributes
                         StatusCodeCollection results1 = null;
