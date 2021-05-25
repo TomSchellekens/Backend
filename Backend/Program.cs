@@ -15,13 +15,42 @@ namespace Quickstarts.Backend
         {
             //SQL data 
             SqlData sqlData = new SqlData();
-
             sqlData.checkConnection();
-            
             DataTable data = sqlData.getIngredients();
+
             //row then colum
-            var test = data.Rows[0][1];
-            Console.WriteLine(test);
+			for (int i = 0; i < data.Rows.Count; i++)
+			{
+                string state = data.Rows[i][0].ToString();
+
+				switch (state)
+				{
+                    case "Bloem":
+						Console.WriteLine("Bloem = {0}", data.Rows[i][1]);
+                        break;
+                    case "Gist":
+                        Console.WriteLine("Gist = {0}", data.Rows[i][1]);
+                        break;
+                    case "Meel":
+                        Console.WriteLine("Meel = {0}", data.Rows[i][1]);
+                        break;
+                    case "Water":
+                        Console.WriteLine("Water = {0}", data.Rows[i][1]);
+                        break;
+                    case "Suiker":
+                        Console.WriteLine("Suiker = {0}", data.Rows[i][1]);
+                        break;
+                    case "Zout":
+                        Console.WriteLine("Zout = {0}", data.Rows[i][1]);
+                        break;
+                    case "Boter":
+                        Console.WriteLine("Boter = {0}", data.Rows[i][1]);
+                        break;
+                    default:
+						break;
+				}
+			}
+            
 
             while (true)
             {
@@ -193,6 +222,8 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+
+					
                     //SQL gedeeld waar de variabelen uitgelezen worden
                     float bloem = 52500;
                     float boter = 1575;
