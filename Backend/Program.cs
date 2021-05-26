@@ -270,6 +270,8 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+
+                        //Read nodes
                         IList<Type> types = new List<Type>();
                         IList<NodeId> nodeIdsRead = new List<NodeId>();
                         List<object> readValues;
@@ -293,7 +295,7 @@ namespace Quickstarts.Backend
 
 
 
-
+                        //Write nodes
                         IList<NodeId> nodeIds = new List<NodeId>();
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
