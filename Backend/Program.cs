@@ -150,6 +150,7 @@ namespace Quickstarts.Backend
                 {
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
+                    short temperatuur = 180;
 
                     //SQL data 
                     SqlData sqlData = new SqlData();
@@ -205,8 +206,9 @@ namespace Quickstarts.Backend
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_GewenstTemp"""));
 
-                    object[] values = {true, bloem, boter, gist, meel, suiker, water, zout };
+                    object[] values = {true, bloem, boter, gist, meel, suiker, water, zout, temperatuur };
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
 
@@ -268,6 +270,29 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int32));
+                        types.Add(typeof(Int16));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_di_WerkelijkMengtijd"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_AmountParts"""));
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+						foreach (var value1 in readValues)
+						{
+							Console.WriteLine(value1);
+						}
+
+
+
+
+
+
+
 
                         IList<NodeId> nodeIds = new List<NodeId>();
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
