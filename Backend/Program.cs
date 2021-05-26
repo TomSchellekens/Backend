@@ -278,8 +278,24 @@ namespace Quickstarts.Backend
 
                         types.Add(typeof(Int32));
                         types.Add(typeof(Int16));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_di_WerkelijkMengtijd"""));
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_AmountParts"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_bloem"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_boter"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_gist"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_meel"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_suiker"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_water"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_zout"""));
+
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
 
@@ -449,6 +465,27 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+
+                        //Read nodes
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16));
+
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Q_i_BrodenVerpaktL1"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Q_i_BrodenAfkStickersL1"""));
+
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+                        foreach (var value1 in readValues)
+                        {
+                            Console.WriteLine(value1);
+                        }
+
 
                         IList<NodeId> nodeIds = new List<NodeId>();
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
