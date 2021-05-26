@@ -34,12 +34,11 @@ namespace Quickstarts.Backend
 
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
-                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
 
-                    //UAClient uaClient = new UAClient(application.ApplicationConfiguration);
                     application.ApplicationConfiguration.CertificateValidator.CertificateValidation += CertificateValidation;
 
                     makeSession(application, endpoint);
@@ -361,6 +360,32 @@ namespace Quickstarts.Backend
                     case 50:
                         Console.WriteLine("Complete");
 
+                        //Read nodes
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16)); 
+                        types.Add(typeof(Int16)); 
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(float));
+
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Q_i_BrodenAfkeurBakkenL1"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Q_i_BrodenGebakkenL1"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_Bakken_max"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_Bakken_min"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_r_Bakken_AVG"""));
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+                        foreach (var value1 in readValues)
+                        {
+                            Console.WriteLine(value1);
+                        }
+
+                        //write to nodes
                         IList<NodeId> nodeIds = new List<NodeId>();
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
                         nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
