@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+ * MOMS2 Backend - SqlData
+ * 
+ * Avans Hogeschool 's-Hertogenbosch - (c)2021
+ * MOMS3 - leerjaar 3 - BLOK 12
+ * 
+ * Manufacturing execution system (MES) voor het vak MOMS2. Bedrijfproject met Actemium voor 'Broodbakkerij Zoete Broodjes Corp.'.
+ * 
+ * Door:				Studentnummer:
+ * Ruben Gepkens		2137822
+ * Tom Schellekens		2135695
+ * Wes Verhagen			2135682
+ * Maurits Duel			2142917
+ * Leon van Elteren		2136163
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Opc.Ua;
@@ -149,7 +165,7 @@ namespace Quickstarts.Backend
                 {
                     //Read opc variable from frontend
                     Guid guid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
-                
+
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
                     short temperatuur = 180;

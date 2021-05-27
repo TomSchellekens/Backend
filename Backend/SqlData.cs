@@ -1,5 +1,5 @@
 ﻿/*
- * MOMS2 Frontend - SqlData
+ * MOMS2 Backend - SqlData
  * 
  * Avans Hogeschool 's-Hertogenbosch - (c)2021
  * MOMS3 - leerjaar 3 - BLOK 12
