@@ -34,8 +34,8 @@ namespace Quickstarts.Backend
 
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
-                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
 
@@ -147,6 +147,9 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+                    //Read opc variable from frontend
+                    Guid guid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
+                
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
                     short temperatuur = 180;
@@ -154,7 +157,7 @@ namespace Quickstarts.Backend
                     //SQL data 
                     SqlData sqlData = new SqlData();
                     sqlData.checkConnection();
-                    DataTable data = sqlData.getIngredients();
+                    DataTable data = sqlData.getIngredients(guid);
 
                     //row then colum
                     for (int i = 0; i < data.Rows.Count; i++)

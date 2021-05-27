@@ -75,13 +75,13 @@ namespace Quickstarts.Backend
 
 
 
-        public DataTable getIngredients()
+        public DataTable getIngredients(Guid uniqueID)
 		{
             try
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("select * from dbo.defGetIngredienten('Bestelling Rumbo')", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("select * from dbo.defGetIngredienten('"+ uniqueID +"')", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
