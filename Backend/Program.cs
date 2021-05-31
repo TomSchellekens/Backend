@@ -539,8 +539,9 @@ namespace Quickstarts.Backend
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Start"""));
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startenOrder"""));
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
 
-                        object[] values_State_50 = { true, false, false };
+                        object[] values_State_50 = { true, false, false, false };
 
                         WriteValueCollection nodesToWrite_State_50 = new WriteValueCollection();
 
@@ -765,7 +766,7 @@ namespace Quickstarts.Backend
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
-                        
+
                         bool test = false;
 
 						if (counterJobOrderDeeg1 == 0)
@@ -774,7 +775,7 @@ namespace Quickstarts.Backend
 						}
 						else
 						{
-                            test = false;
+                            test = true;
 						}
 
                         object[] values1 = { false, false, false, test };
