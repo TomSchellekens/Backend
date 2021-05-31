@@ -130,6 +130,16 @@ namespace Quickstarts.Backend
                 verpakkenLijn2.Notification += (sender, e) => OnStateVerpakkenLijn2(sender, e, session);
                 subscription.AddItem(verpakkenLijn2);
 
+                //Start jobs lijn 1
+                var startjobslijn1 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartJobsLijn1", StartNodeId = @"ns=3;s=""db_OPCdata"".""startJobsLijn1""" };
+                startjobslijn1.Notification += (sender, e) => OnStartJobsLijn1(sender, e, session);
+                subscription.AddItem(startjobslijn1);
+
+                //Start jobs lijn 2
+                var startjobslijn2 = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartJobsLijn2", StartNodeId = @"ns=3;s=""db_OPCdata"".""startJobsLijn2""" };
+                startjobslijn2.Notification += (sender, e) => OnStartJobsLijn2(sender, e, session);
+                subscription.AddItem(startjobslijn2);
+
                 //Add subscription to de session
                 session.AddSubscription(subscription);
                 subscription.Create();
@@ -175,7 +185,7 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
-					if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0)
+					if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0 && counterJobOrderDeeg2 == 0 && counterJobOrderBakken2 == 0 && counterJobOrderVerpakken2 == 0)
 					{
                         //Read opc variable from frontend
                         orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
@@ -223,6 +233,51 @@ namespace Quickstarts.Backend
                         counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
                     }
 
+                    IList<NodeId> nodeIds = new List<NodeId>();
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn2"""));
+
+
+                    object[] values = { true, true };
+
+                    WriteValueCollection nodesToWrite = new WriteValueCollection();
+
+                    for (int i = 0; i < nodeIds.Count; i++)
+                    {
+                        WriteValue bWriteValue = new WriteValue();
+                        bWriteValue.NodeId = nodeIds[i];
+                        bWriteValue.AttributeId = Attributes.Value;
+                        bWriteValue.Value = new DataValue();
+                        bWriteValue.Value.Value = values[i];
+                        nodesToWrite.Add(bWriteValue);
+                    }
+
+                    // Write the node attributes
+                    StatusCodeCollection results = null;
+                    DiagnosticInfoCollection diagnosticInfos;
+
+                    // Call Write Service
+                    session.Write(null,
+                                    nodesToWrite,
+                                    out results,
+                                    out diagnosticInfos);
+
+                    foreach (StatusCode writeResult in results)
+                    {
+                        Console.WriteLine("     {0}", writeResult);
+                    }
+                }
+            }
+        }
+        
+        private static void OnStartJobsLijn1(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+		{
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
 
@@ -282,7 +337,7 @@ namespace Quickstarts.Backend
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout"""));
 
 
-                    object[] values = {true, bloem, boter, gist, meel, suiker, water, zout };
+                    object[] values = { true, bloem, boter, gist, meel, suiker, water, zout };
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
 
@@ -310,6 +365,107 @@ namespace Quickstarts.Backend
                     {
                         Console.WriteLine("     {0}", writeResult);
                     }
+
+                }
+            }
+        }
+
+        private static void OnStartJobsLijn2(MonitoredItem item, MonitoredItemNotificationEventArgs e, Session session)
+        {
+            foreach (var value in item.DequeueValues())
+            {
+                Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
+                if ((bool)value.Value == true)
+                {
+                    Console.WriteLine(value.Value.ToString());
+                    //Ingedrienten
+                    float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
+
+                    //SQL data 
+                    SqlData sqlData = new SqlData();
+                    sqlData.checkConnection();
+                    DataTable data = sqlData.getIngredients(JobOrdersDeeg2[0]);
+
+                    //row then colum
+                    for (int i = 0; i < data.Rows.Count; i++)
+                    {
+                        string Ingredient = data.Rows[i][0].ToString();
+
+                        switch (Ingredient)
+                        {
+                            case "Bloem":
+                                bloem = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Bloem = {0}", bloem);
+                                break;
+                            case "Gist":
+                                gist = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Gist = {0}", gist);
+                                break;
+                            case "Meel":
+                                meel = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Meel = {0}", meel);
+                                break;
+                            case "Water":
+                                water = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Water = {0}", water);
+                                break;
+                            case "Suiker":
+                                suiker = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Suiker = {0}", suiker);
+                                break;
+                            case "Zout":
+                                zout = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Zout = {0}", zout);
+                                break;
+                            case "Boter":
+                                boter = float.Parse(data.Rows[i][1].ToString());
+                                Console.WriteLine("Boter = {0}", boter);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    IList<NodeId> nodeIds = new List<NodeId>();
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_bloem"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_boter"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_gist"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_meel"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_suiker"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_water"""));
+                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_zout"""));
+
+
+                    object[] values = { true, bloem, boter, gist, meel, suiker, water, zout };
+
+                    WriteValueCollection nodesToWrite = new WriteValueCollection();
+
+                    for (int i = 0; i < nodeIds.Count; i++)
+                    {
+                        WriteValue bWriteValue = new WriteValue();
+                        bWriteValue.NodeId = nodeIds[i];
+                        bWriteValue.AttributeId = Attributes.Value;
+                        bWriteValue.Value = new DataValue();
+                        bWriteValue.Value.Value = values[i];
+                        nodesToWrite.Add(bWriteValue);
+                    }
+
+                    // Write the node attributes
+                    StatusCodeCollection results = null;
+                    DiagnosticInfoCollection diagnosticInfos;
+
+                    // Call Write Service
+                    session.Write(null,
+                                    nodesToWrite,
+                                    out results,
+                                    out diagnosticInfos);
+
+                    foreach (StatusCode writeResult in results)
+                    {
+                        Console.WriteLine("     {0}", writeResult);
+                    }
+
                 }
             }
         }
@@ -608,7 +764,7 @@ namespace Quickstarts.Backend
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
                         nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
-                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startenOrder"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
                         
                         bool test = false;
 
@@ -618,7 +774,7 @@ namespace Quickstarts.Backend
 						}
 						else
 						{
-                            test = true;
+                            test = false;
 						}
 
                         object[] values1 = { false, false, false, test };
