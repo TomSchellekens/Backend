@@ -198,7 +198,7 @@ namespace Quickstarts.Backend
                     SqlData sqlData1 = new SqlData();
                     sqlData1.checkConnection();
                     sqlData1.fillPerformanceTables(orderid);
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         Console.WriteLine(dbids[i]);
                         DataTable data1 = sqlData1.getJobOrders(dbids[i], orderid);
@@ -276,7 +276,6 @@ namespace Quickstarts.Backend
                     }
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
-                    //FB696E45-05EF-4C93-BD98-ABEE6ACAC334
 
                     for (int i = 0; i < nodeIds.Count; i++)
                     {
@@ -462,7 +461,7 @@ namespace Quickstarts.Backend
                         }
                     }
 
-                    IList<NodeId> nodeIds = new List<NodeId>();
+                    IList<NodeId> nodeIds = new List<NodeId>();//
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_bloem"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Recept"".""S_r_boter"""));
@@ -916,7 +915,7 @@ namespace Quickstarts.Backend
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""I_b_Cmd_Start"""));
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
                         nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startenOrder"""));
-                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn2"""));
 
                         object[] values_State_50 = { true, false, false, false };
 
@@ -1202,95 +1201,3 @@ namespace Quickstarts.Backend
 
     }
 }
-
-
-
-
-/*
-                         //Ingedrienten
-                        float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
-
-                        //SQL data 
-                        SqlData sqlData = new SqlData();
-                        sqlData.checkConnection();
-                        DataTable data = sqlData.getIngredients(orderid);
-
-                        //row then colum
-                        for (int i = 0; i < data.Rows.Count; i++)
-                        {
-                            string Ingredient = data.Rows[i][0].ToString();
-
-                            switch (Ingredient)
-                            {
-                                case "Bloem":
-                                    bloem = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Bloem = {0}", bloem);
-                                    break;
-                                case "Gist":
-                                    gist = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Gist = {0}", gist);
-                                    break;
-                                case "Meel":
-                                    meel = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Meel = {0}", meel);
-                                    break;
-                                case "Water":
-                                    water = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Water = {0}", water);
-                                    break;
-                                case "Suiker":
-                                    suiker = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Suiker = {0}", suiker);
-                                    break;
-                                case "Zout":
-                                    zout = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Zout = {0}", zout);
-                                    break;
-                                case "Boter":
-                                    boter = float.Parse(data.Rows[i][1].ToString());
-                                    Console.WriteLine("Boter = {0}", boter);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-
-                        IList<NodeId> nodeIds = new List<NodeId>();
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_bloem"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_boter"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_gist"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_meel"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_suiker"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_water"""));
-                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""Recept"".""S_r_zout"""));
-
-
-                        object[] values = { bloem, boter, gist, meel, suiker, water, zout };
-
-                        WriteValueCollection nodesToWrite = new WriteValueCollection();
-
-                        for (int i = 0; i < nodeIds.Count; i++)
-                        {
-                            WriteValue bWriteValue = new WriteValue();
-                            bWriteValue.NodeId = nodeIds[i];
-                            bWriteValue.AttributeId = Attributes.Value;
-                            bWriteValue.Value = new DataValue();
-                            bWriteValue.Value.Value = values[i];
-                            nodesToWrite.Add(bWriteValue);
-                        }
-
-                        // Write the node attributes
-                        StatusCodeCollection results = null;
-                        DiagnosticInfoCollection diagnosticInfos;
-
-                        // Call Write Service
-                        session.Write(null,
-                                        nodesToWrite,
-                                        out results,
-                                        out diagnosticInfos);
-
-                        foreach (StatusCode writeResult in results)
-                        {
-                            Console.WriteLine("     {0}", writeResult);
-                        }
- */
