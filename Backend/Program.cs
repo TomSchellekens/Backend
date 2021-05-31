@@ -185,60 +185,75 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
-					if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0) //&& counterJobOrderDeeg2 == 0 && counterJobOrderBakken2 == 0 && counterJobOrderVerpakken2 == 0
+
+                    //Read opc variable from frontend
+                    orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
+                        
+                    //DBID zijn nog van lijn 2 is om te testen
+                    List<Guid> dbids = new List<Guid>();
+                    dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 1 : 39D84F43-01C8-4753-A210-FB58392D2059
+                    dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 1 : 7ECE938B-5D65-4643-9F3D-60D3DD42AD3F
+                    dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 1 : EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD
+
+                    //Hier JobOrders ophalen voor specifiek order nummer en opslaan
+                    SqlData sqlData1 = new SqlData();
+                    sqlData1.checkConnection();
+                    sqlData1.fillPerformanceTables(orderid);
+                    for (int i = 0; i < 3; i++)
                     {
-                        //Read opc variable from frontend
-                        orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
-
-                        //DBID zijn nog van lijn 2 is om te testen
-                        List<Guid> dbids = new List<Guid>();
-                        dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 1 : 39D84F43-01C8-4753-A210-FB58392D2059
-                        dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 1 : 7ECE938B-5D65-4643-9F3D-60D3DD42AD3F
-                        dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 1 : EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD
-
-                        //Hier JobOrders ophalen voor specifiek order nummer en opslaan
-                        SqlData sqlData1 = new SqlData();
-                        sqlData1.checkConnection();
-                        for (int i = 0; i < 3; i++)
+                        Console.WriteLine(dbids[i]);
+                        DataTable data1 = sqlData1.getJobOrders(dbids[i], orderid);
+                        switch (i)
                         {
-                            Console.WriteLine(dbids[i]);
-                            DataTable data1 = sqlData1.getJobOrders(dbids[i], orderid);
-                            switch (i)
-                            {
-                                case 0:
-                                    for (int j = 0; j < data1.Rows.Count; j++)
-                                    {
-                                        JobOrdersDeeg1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                    }
-                                    break;
-                                case 1:
-                                    for (int j = 0; j < data1.Rows.Count; j++)
-                                    {
-                                        JobOrdersBakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                    }
-                                    break;
-                                case 2:
-                                    for (int j = 0; j < data1.Rows.Count; j++)
-                                    {
-                                        JobOrdersVerpakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
+                            case 0:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersDeeg1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
+                            case 1:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersBakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
+                            case 2:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersVerpakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
+                            default:
+                                break;
                         }
-
-                        counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
-                        counterJobOrderBakken1 = JobOrdersBakken1.Count;
-                        counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
                     }
 
+                    counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
+                    counterJobOrderBakken1 = JobOrdersBakken1.Count;
+                    counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
+
+                    object[] values = {false, false };
                     IList<NodeId> nodeIds = new List<NodeId>();
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
                     nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn2"""));
 
+                    if (counterJobOrderDeeg1 > 0 && counterJobOrderBakken1 > 0 && counterJobOrderVerpakken1 > 0) 
+                    {
+                        values[0] = true;
+                    }
+					else
+					{
+                        values[0] = false;
+ 					}
 
-                    object[] values = { true, true };
+					if (counterJobOrderDeeg2 > 0 && counterJobOrderBakken2 > 0 && counterJobOrderVerpakken2 > 0)
+					{
+                        values[1] = true;
+                    }
+					else
+					{
+                        values[1] = false;
+                    }
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
 

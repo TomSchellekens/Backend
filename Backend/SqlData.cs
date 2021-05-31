@@ -120,5 +120,27 @@ namespace Quickstarts.Backend
                 return null;
             }
         }
+
+        public void fillPerformanceTables(Guid OrderId)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spOnStartingOrder @OrderId = '"+ OrderId +"'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
     }
 }
