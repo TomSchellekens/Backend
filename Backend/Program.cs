@@ -40,13 +40,10 @@ namespace Quickstarts.Backend
 
         static void Main(string[] args)
         {
- 
-
             while (true)
             {
                 try
                 {
-
                     Console.WriteLine("Trying to connect to OPC...");
 
                     // Define the UA Client application
@@ -87,7 +84,6 @@ namespace Quickstarts.Backend
             {
                 Console.WriteLine("Connected.");
                 var subscription = new Subscription(session.DefaultSubscription) { PublishingInterval = 500 };
-
 
                 //Starten Order
                 var startOrder = new MonitoredItem(subscription.DefaultItem) { DisplayName = "StartenOrder", StartNodeId = @"ns=3;s=""db_OPCdata"".""startenOrder""" };
@@ -191,9 +187,12 @@ namespace Quickstarts.Backend
                         
                     //DBID zijn nog van lijn 2 is om te testen
                     List<Guid> dbids = new List<Guid>();
-                    dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 1 : 39D84F43-01C8-4753-A210-FB58392D2059
-                    dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 1 : 7ECE938B-5D65-4643-9F3D-60D3DD42AD3F
-                    dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 1 : EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD
+                    dbids.Add(Guid.Parse("39D84F43-01C8-4753-A210-FB58392D2059")); //Deegverwerking 1 
+                    dbids.Add(Guid.Parse("7ECE938B-5D65-4643-9F3D-60D3DD42AD3F")); //Bakken 1 
+                    dbids.Add(Guid.Parse("EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD")); //Verpakken 1 
+                    dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 2
+                    dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 2 
+                    dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 2
 
                     //Hier JobOrders ophalen voor specifiek order nummer en opslaan
                     SqlData sqlData1 = new SqlData();
@@ -223,6 +222,24 @@ namespace Quickstarts.Backend
                                     JobOrdersVerpakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
                                 }
                                 break;
+                            case 3:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersDeeg2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
+                            case 4:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersBakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
+                            case 5:
+                                for (int j = 0; j < data1.Rows.Count; j++)
+                                {
+                                    JobOrdersVerpakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                }
+                                break;
                             default:
                                 break;
                         }
@@ -231,6 +248,9 @@ namespace Quickstarts.Backend
                     counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
                     counterJobOrderBakken1 = JobOrdersBakken1.Count;
                     counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
+                    counterJobOrderDeeg2 = JobOrdersDeeg2.Count;
+                    counterJobOrderBakken2 = JobOrdersBakken2.Count;
+                    counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
 
                     object[] values = {false, false };
                     IList<NodeId> nodeIds = new List<NodeId>();
@@ -256,6 +276,7 @@ namespace Quickstarts.Backend
                     }
 
                     WriteValueCollection nodesToWrite = new WriteValueCollection();
+                    //FB696E45-05EF-4C93-BD98-ABEE6ACAC334
 
                     for (int i = 0; i < nodeIds.Count; i++)
                     {
@@ -399,7 +420,7 @@ namespace Quickstarts.Backend
                     //SQL data 
                     SqlData sqlData = new SqlData();
                     sqlData.checkConnection();
-                    DataTable data = sqlData.getIngredients(JobOrdersDeeg1[0]);
+                    DataTable data = sqlData.getIngredients(JobOrdersDeeg2[0]);
 
                     //row then colum
                     for (int i = 0; i < data.Rows.Count; i++)
@@ -857,6 +878,79 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+                        //Read nodes
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int32));
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+                        types.Add(typeof(float));
+
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_di_WerkelijkMengtijd"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_i_AmountParts"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_bloem"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_boter"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_gist"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_meel"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_suiker"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_water"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_zout"""));
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+                        foreach (var value1 in readValues)
+                        {
+                            Console.WriteLine(value1);
+                        }
+
+                        //Write nodes
+                        IList<NodeId> nodeIds_State_50 = new List<NodeId>();
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""I_b_Cmd_Start"""));
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Start"""));
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startenOrder"""));
+                        nodeIds_State_50.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
+
+                        object[] values_State_50 = { true, false, false, false };
+
+                        WriteValueCollection nodesToWrite_State_50 = new WriteValueCollection();
+
+                        for (int i = 0; i < nodeIds_State_50.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds_State_50[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values_State_50[i];
+                            nodesToWrite_State_50.Add(bWriteValue);
+                        }
+
+                        // Write the node attributes
+                        StatusCodeCollection results_State_50 = null;
+                        DiagnosticInfoCollection diagnosticInfos_State_50;
+
+                        // Call Write Service
+                        session.Write(null,
+                                        nodesToWrite_State_50,
+                                        out results_State_50,
+                                        out diagnosticInfos_State_50);
+
+                        foreach (StatusCode writeResult in results_State_50)
+                        {
+                            Console.WriteLine("     {0}", writeResult);
+                        }
+
+                        //Gooit JobOrder uit de wachtrij
+                        JobOrdersDeeg2.Remove(JobOrdersDeeg2[0]);
+                        counterJobOrderDeeg2 = JobOrdersDeeg2.Count;
+                        Console.WriteLine("Count Job Order Deeg: {0}", counterJobOrderDeeg2);
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -887,6 +981,72 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+
+                        //Read nodes
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(float));
+
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Q_i_BrodenAfkeurBakkenL2"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Q_i_BrodenGebakkenL2"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_i_Bakken_max"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_i_Bakken_min"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_r_Bakken_AVG"""));
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+                        foreach (var value1 in readValues)
+                        {
+                            Console.WriteLine(value1);
+                        }
+
+                        //write to nodes
+                        IList<NodeId> nodeIds = new List<NodeId>();
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""I_b_Cmd_Start"""));
+
+                        object[] values = { true, false };
+
+                        WriteValueCollection nodesToWrite = new WriteValueCollection();
+
+                        for (int i = 0; i < nodeIds.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
+
+
+                        // Write the node attributes
+                        StatusCodeCollection results = null;
+                        DiagnosticInfoCollection diagnosticInfos;
+
+                        // Call Write Service
+                        session.Write(null,
+                                        nodesToWrite,
+                                        out results,
+                                        out diagnosticInfos);
+
+                        foreach (StatusCode writeResult in results)
+                        {
+                            Console.WriteLine("     {0}", writeResult);
+                        }
+
+                        //Gooit JobOrder uit de wachtrij
+                        JobOrdersBakken2.Remove(JobOrdersBakken2[0]);
+                        counterJobOrderBakken2 = JobOrdersBakken2.Count;
+                        Console.WriteLine("Count Job Order Bakken: {0}", counterJobOrderBakken2);
+
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -917,6 +1077,116 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+
+                        //Read nodes
+                        IList<Type> types = new List<Type>();
+                        IList<NodeId> nodeIdsRead = new List<NodeId>();
+                        List<object> readValues;
+                        List<ServiceResult> readResult;
+
+                        types.Add(typeof(Int16));
+                        types.Add(typeof(Int16));
+
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Q_i_BrodenVerpaktL2"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Q_i_BrodenAfkStickersL2"""));
+
+
+                        session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+
+                        foreach (var value1 in readValues)
+                        {
+                            Console.WriteLine(value1);
+                        }
+
+
+                        IList<NodeId> nodeIds = new List<NodeId>();
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Verpakken"".""I_b_Cmd_Start"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
+                        nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
+
+
+                        object[] values = { false, true, true, true };
+
+                        WriteValueCollection nodesToWrite = new WriteValueCollection();
+
+                        for (int i = 0; i < nodeIds.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values[i];
+                            nodesToWrite.Add(bWriteValue);
+                        }
+
+                        // Write the node attributes
+                        StatusCodeCollection results = null;
+                        DiagnosticInfoCollection diagnosticInfos;
+
+                        // Call Write Service
+                        session.Write(null,
+                                        nodesToWrite,
+                                        out results,
+                                        out diagnosticInfos);
+
+                        foreach (StatusCode writeResult in results)
+                        {
+                            Console.WriteLine("     {0}", writeResult);
+                        }
+
+                        Thread.Sleep(2000);
+
+                        IList<NodeId> nodeIds1 = new List<NodeId>();
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackMl_Deegverwerking"".""I_b_Cmd_Reset"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Bakken"".""I_b_Cmd_Reset"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""PackML_Verpakken"".""I_b_Cmd_Reset"""));
+                        nodeIds1.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn2"""));
+
+                        bool test = false;
+
+                        if (counterJobOrderDeeg2 == 0)
+                        {
+                            test = false;
+                        }
+                        else
+                        {
+                            test = true;
+                        }
+
+                        object[] values1 = { false, false, false, test };
+
+                        WriteValueCollection nodesToWrite1 = new WriteValueCollection();
+
+                        for (int i = 0; i < nodeIds1.Count; i++)
+                        {
+                            WriteValue bWriteValue = new WriteValue();
+                            bWriteValue.NodeId = nodeIds1[i];
+                            bWriteValue.AttributeId = Attributes.Value;
+                            bWriteValue.Value = new DataValue();
+                            bWriteValue.Value.Value = values1[i];
+                            nodesToWrite1.Add(bWriteValue);
+                        }
+
+                        // Write the node attributes
+                        StatusCodeCollection results1 = null;
+                        DiagnosticInfoCollection diagnosticInfos1;
+
+                        // Call Write Service
+                        session.Write(null,
+                                        nodesToWrite1,
+                                        out results1,
+                                        out diagnosticInfos1);
+
+                        foreach (StatusCode writeResult in results1)
+                        {
+                            Console.WriteLine("     {0}", writeResult);
+                        }
+
+                        //Gooit JobOrder uit de wachtrij
+                        JobOrdersVerpakken2.Remove(JobOrdersVerpakken2[0]);
+                        counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
+                        Console.WriteLine("Count Job Order Verpakken: {0}", counterJobOrderVerpakken2);
                         break;
                     case 70:
                         Console.WriteLine("Hold");

@@ -79,7 +79,7 @@ namespace Quickstarts.Backend
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("select * from dbo.defGetIngredienten('"+ joborderID +"')", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetIngredients @orderID = '"+joborderID+"'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
