@@ -384,7 +384,7 @@ namespace Quickstarts.Backend
                     //SQL data 
                     SqlData sqlData = new SqlData();
                     sqlData.checkConnection();
-                    DataTable data = sqlData.getIngredients(JobOrdersDeeg2[0]);
+                    DataTable data = sqlData.getIngredients(JobOrdersDeeg1[0]);
 
                     //row then colum
                     for (int i = 0; i < data.Rows.Count; i++)
