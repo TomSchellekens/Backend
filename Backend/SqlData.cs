@@ -73,13 +73,13 @@ namespace Quickstarts.Backend
             }
         }
 
-        public DataTable getIngredients(Guid uniqueID)
+        public DataTable getIngredients(Guid joborderID)
 		{
             try
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("select * from dbo.defGetIngredienten('"+ uniqueID +"')", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("select * from dbo.defGetIngredienten('"+ joborderID +"')", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
@@ -103,7 +103,7 @@ namespace Quickstarts.Backend
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetJobOrder @segment = "+SegmentId+", @orderid = "+OrderId+"", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetJobOrder @segment = '"+SegmentId+"', @orderid = '"+OrderId+"'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
