@@ -96,5 +96,29 @@ namespace Quickstarts.Backend
                 return null;
             }
         }
+
+        public DataTable getJobOrders(Guid SegmentId, Guid OrderId)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetJobOrder @segment = "+SegmentId+", @orderid = "+OrderId+"", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                            return dataTable;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+                return null;
+            }
+        }
     }
 }

@@ -25,10 +25,13 @@ using System.Data.SqlClient;
 
 namespace Quickstarts.Backend
 {
+    
     public static class Program
     {
+        static Guid orderid;
         static void Main(string[] args)
-        {        
+        {
+ 
 
             while (true)
             {
@@ -164,7 +167,7 @@ namespace Quickstarts.Backend
                 if ((bool)value.Value == true)
                 {
                     //Read opc variable from frontend
-                    Guid guid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
+                    orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
 
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
@@ -173,7 +176,7 @@ namespace Quickstarts.Backend
                     //SQL data 
                     SqlData sqlData = new SqlData();
                     sqlData.checkConnection();
-                    DataTable data = sqlData.getIngredients(guid);
+                    DataTable data = sqlData.getIngredients(orderid);
 
                     //row then colum
                     for (int i = 0; i < data.Rows.Count; i++)
@@ -275,6 +278,7 @@ namespace Quickstarts.Backend
         {
             foreach (var value in item.DequeueValues())
             {
+                Guid segmentID = Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A");
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 int state = Convert.ToInt32(value.Value);
 
@@ -282,6 +286,20 @@ namespace Quickstarts.Backend
                 {
                     case 10:
                         Console.WriteLine("Idle");
+                        break;
+                    case 20:
+						Console.WriteLine("Starting");
+                        //Hier JobOrders ophalen voor specifiek order nummer en opslaan
+                        //SQL data 
+                        SqlData sqlData = new SqlData();
+                        sqlData.checkConnection();
+                        DataTable data = sqlData.getJobOrders(segmentID, orderid);
+
+						foreach (var d in data.Rows)
+						{
+							Console.WriteLine(d);
+						}
+
                         break;
                     case 30:
                         Console.WriteLine("Execute");
