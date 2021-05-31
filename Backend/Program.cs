@@ -185,8 +185,8 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
-					if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0 && counterJobOrderDeeg2 == 0 && counterJobOrderBakken2 == 0 && counterJobOrderVerpakken2 == 0)
-					{
+					if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0) //&& counterJobOrderDeeg2 == 0 && counterJobOrderBakken2 == 0 && counterJobOrderVerpakken2 == 0
+                    {
                         //Read opc variable from frontend
                         orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
 
