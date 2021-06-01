@@ -578,41 +578,48 @@ namespace Quickstarts.Backend
 						{
 							switch (names[i])
 							{
-                                case "Mengtijd":
-                                    Console.WriteLine("1");
+                                case "Mengtijd":                                    
                                     intVars = Int32.Parse(readValues[i].ToString());
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                case "Part":
-                                    Console.WriteLine("2");
-                                    intVars = Int16.Parse(readValues[i].ToString());
+                                case "Part":                         
+                                    intVars = Int16.Parse(readValues[i].ToString());                                   
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                case "Bloem":
-                                    Console.WriteLine("3");
+                                case "Bloem":          
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Boter":
-                                    Console.WriteLine("1");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Gist":
-                                    Console.WriteLine("2");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Meel":
-                                    Console.WriteLine("3");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Suiker":
-                                    Console.WriteLine("2");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Water":
-                                    Console.WriteLine("3");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 case "Zout":
-                                    Console.WriteLine("3");
                                     fVars = float.Parse(readValues[i].ToString());
+                                    
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 default:
 									break;
