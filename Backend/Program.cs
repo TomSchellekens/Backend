@@ -608,7 +608,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersDeeg1.Remove(JobOrdersDeeg1[0]);
                         counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
-						Console.WriteLine("Count Job Order Deeg: {0}",counterJobOrderDeeg1);
+						Console.WriteLine("Count Job Order Deeg 1: {0}",counterJobOrderDeeg1);
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -704,7 +704,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersBakken1.Remove(JobOrdersBakken1[0]);
                         counterJobOrderBakken1 = JobOrdersBakken1.Count;
-                        Console.WriteLine("Count Job Order Bakken: {0}",counterJobOrderBakken1);
+                        Console.WriteLine("Count Job Order Bakken 1: {0}",counterJobOrderBakken1);
 
                         break;
                     case 70:
@@ -845,7 +845,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersVerpakken1.Remove(JobOrdersVerpakken1[0]);
                         counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
-                        Console.WriteLine("Count Job Order Verpakken: {0}",counterJobOrderVerpakken1);
+                        Console.WriteLine("Count Job Order Verpakken 1: {0}",counterJobOrderVerpakken1);
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -949,7 +949,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersDeeg2.Remove(JobOrdersDeeg2[0]);
                         counterJobOrderDeeg2 = JobOrdersDeeg2.Count;
-                        Console.WriteLine("Count Job Order Deeg: {0}", counterJobOrderDeeg2);
+                        Console.WriteLine("Count Job Order Deeg 2: {0}", counterJobOrderDeeg2);
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -1044,7 +1044,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersBakken2.Remove(JobOrdersBakken2[0]);
                         counterJobOrderBakken2 = JobOrdersBakken2.Count;
-                        Console.WriteLine("Count Job Order Bakken: {0}", counterJobOrderBakken2);
+                        Console.WriteLine("Count Job Order Bakken 2: {0}", counterJobOrderBakken2);
 
                         break;
                     case 70:
@@ -1185,7 +1185,7 @@ namespace Quickstarts.Backend
                         //Gooit JobOrder uit de wachtrij
                         JobOrdersVerpakken2.Remove(JobOrdersVerpakken2[0]);
                         counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
-                        Console.WriteLine("Count Job Order Verpakken: {0}", counterJobOrderVerpakken2);
+                        Console.WriteLine("Count Job Order Verpakken 2: {0}", counterJobOrderVerpakken2);
                         break;
                     case 70:
                         Console.WriteLine("Hold");
