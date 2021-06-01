@@ -574,6 +574,10 @@ namespace Quickstarts.Backend
                         int intVars;
                         float fVars;
 
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+
                         for (int i = 0; i < readValues.Count; i++)
 						{
 							switch (names[i])
@@ -585,41 +589,49 @@ namespace Quickstarts.Backend
                                 case "Part":                         
                                     intVars = Int16.Parse(readValues[i].ToString());                                   
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Bloem":          
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Boter":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Gist":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Meel":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Suiker":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Water":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 case "Zout":
                                     fVars = float.Parse(readValues[i].ToString());
                                     
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
                                     break;
                                 default:
 									break;

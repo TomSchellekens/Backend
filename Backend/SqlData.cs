@@ -142,5 +142,27 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Generic exception: " + ex.Message);
             }
         }
+
+        public void fillMaterialActualTabel(float Quantity, Guid JobOrderId, string MaterialDefinitionId)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spInsertMaterialActual @Quantity = '" + Quantity + "', @JobOrderId = '" + JobOrderId + "', @MaterialDefinitionId = '" + MaterialDefinitionId + "'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
     }
 }
