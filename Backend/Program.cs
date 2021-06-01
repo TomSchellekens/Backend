@@ -558,6 +558,8 @@ namespace Quickstarts.Backend
                         types.Add(typeof(float));
                         types.Add(typeof(float));
 
+                        var mengtijd = session.ReadValue(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_di_WerkelijkMengtijd""");
+
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_di_WerkelijkMengtijd"""));
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""S_i_AmountParts"""));
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_bloem"""));
@@ -569,11 +571,52 @@ namespace Quickstarts.Backend
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_zout"""));
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
-                        
-						for (int i = 0; i < readValues.Count; i++)
+                        int intVars;
+                        float fVars;
+
+                        for (int i = 0; i < readValues.Count; i++)
 						{
-							Console.WriteLine(types[i].Name);
-							Console.WriteLine("{0} = {1}", name[i], readValues[i]);
+							switch (names[i])
+							{
+                                case "Mengtijd":
+                                    Console.WriteLine("1");
+                                    intVars = Int32.Parse(readValues[i].ToString());
+                                    break;
+                                case "Part":
+                                    Console.WriteLine("2");
+                                    intVars = Int16.Parse(readValues[i].ToString());
+                                    break;
+                                case "Bloem":
+                                    Console.WriteLine("3");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Boter":
+                                    Console.WriteLine("1");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Gist":
+                                    Console.WriteLine("2");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Meel":
+                                    Console.WriteLine("3");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Suiker":
+                                    Console.WriteLine("2");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Water":
+                                    Console.WriteLine("3");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                case "Zout":
+                                    Console.WriteLine("3");
+                                    fVars = float.Parse(readValues[i].ToString());
+                                    break;
+                                default:
+									break;
+							}
 						}
 
 
