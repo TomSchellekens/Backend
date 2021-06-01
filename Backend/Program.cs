@@ -535,12 +535,18 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
-
+                        string[] names = { "Mengtijd", "Part", "Bloem", "Boter", "Gist", "Meel", "Suiker", "Water","Zout"};
                         //Read nodes
                         IList<Type> types = new List<Type>();
                         IList<NodeId> nodeIdsRead = new List<NodeId>();
                         List<object> readValues;
                         List<ServiceResult> readResult;
+                        List<string> name = new List<string>();
+
+						foreach (var n in names)
+						{
+                            name.Add(n);
+						}
 
                         types.Add(typeof(Int32));
                         types.Add(typeof(Int16));
@@ -563,11 +569,13 @@ namespace Quickstarts.Backend
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn1"".""Produceren"".""ActueleWaarde"".""S_r_zout"""));
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
-
-						foreach (var value1 in readValues)
+                        
+						for (int i = 0; i < readValues.Count; i++)
 						{
-							Console.WriteLine(value1);
+							Console.WriteLine(types[i].Name);
+							Console.WriteLine("{0} = {1}", name[i], readValues[i]);
 						}
+
 
                         //Write nodes
                         IList<NodeId> nodeIds_State_50 = new List<NodeId>();
