@@ -1006,6 +1006,7 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
+                        string[] names = { "Mengtijd", "Part", "Bloem", "Boter", "Gist", "Meel", "Suiker", "Water", "Zout" };
                         //Read nodes
                         IList<Type> types = new List<Type>();
                         IList<NodeId> nodeIdsRead = new List<NodeId>();
@@ -1033,10 +1034,72 @@ namespace Quickstarts.Backend
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""ActueleWaarde"".""S_r_zout"""));
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
+                        int intVars;
+                        float fVars;
 
-                        foreach (var value1 in readValues)
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+
+                        for (int i = 0; i < readValues.Count; i++)
                         {
-                            Console.WriteLine(value1);
+                            switch (names[i])
+                            {
+                                case "Mengtijd":
+                                    intVars = Int32.Parse(readValues[i].ToString());
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    break;
+                                case "Part":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken1[0], names[i]);
+                                    break;
+                                case "Bloem":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Boter":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Gist":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Meel":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Suiker":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Water":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                case "Zout":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
 
                         //Write nodes
@@ -1109,7 +1172,7 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
-
+                        string[] names = { "GebakkenAfkeur", "Gebakken", "BakkenMax", "BakkenMin", "BakkenAVG" };
                         //Read nodes
                         IList<Type> types = new List<Type>();
                         IList<NodeId> nodeIdsRead = new List<NodeId>();
@@ -1130,10 +1193,48 @@ namespace Quickstarts.Backend
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
 
-                        foreach (var value1 in readValues)
+                        int intVars;
+                        float fVars;
+
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+
+                        for (int i = 0; i < readValues.Count; i++)
                         {
-                            Console.WriteLine(value1);
+                            switch (names[i])
+                            {
+                                case "GebakkenAfkeur":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    break;
+                                case "Gebakken":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken1[0], names[i]);
+                                    break;
+                                case "BakkenMax":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    break;
+                                case "BakkenMin":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    break;
+                                case "BakkenAVG":
+                                    fVars = float.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
+
 
                         //write to nodes
                         IList<NodeId> nodeIds = new List<NodeId>();
@@ -1205,7 +1306,7 @@ namespace Quickstarts.Backend
                         break;
                     case 50:
                         Console.WriteLine("Complete");
-
+                        string[] names = { "Verpakt", "Stickers" };
                         //Read nodes
                         IList<Type> types = new List<Type>();
                         IList<NodeId> nodeIdsRead = new List<NodeId>();
@@ -1221,9 +1322,31 @@ namespace Quickstarts.Backend
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
 
-                        foreach (var value1 in readValues)
+                        int intVars;
+                        int tempVerpakt = 0;
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+
+                        for (int i = 0; i < readValues.Count; i++)
                         {
-                            Console.WriteLine(value1);
+                            switch (names[i])
+                            {
+                                case "Verpakt":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    tempVerpakt = intVars;
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken1[0], names[i]);
+                                    break;
+                                case "Stickers":
+                                    intVars = Int16.Parse(readValues[i].ToString());
+
+                                    Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.fillMaterialActualTabel((float)(intVars + tempVerpakt), JobOrdersVerpakken1[0], names[i]);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
 
 
