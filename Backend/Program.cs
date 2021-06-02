@@ -1052,50 +1052,50 @@ namespace Quickstarts.Backend
                                 case "Part":
                                     intVars = Int16.Parse(readValues[i].ToString());
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
-                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersDeeg1[0], names[i]);
-                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersDeeg2[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken2[0], names[i]);
                                     break;
                                 case "Bloem":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Boter":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Gist":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Meel":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Suiker":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Water":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 case "Zout":
                                     fVars = float.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel(fVars, JobOrdersDeeg2[0], names[i]);
                                     break;
                                 default:
                                     break;
@@ -1189,7 +1189,7 @@ namespace Quickstarts.Backend
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""Produceren"".""Q_i_BrodenGebakkenL2"""));
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_i_Bakken_max"""));
                         nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_i_Bakken_min"""));
-                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_r_Bakken_AVG"""));
+                        nodeIdsRead.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""lijn2"".""S_r_Bakken_avg"""));
 
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
 
@@ -1212,8 +1212,8 @@ namespace Quickstarts.Backend
                                     intVars = Int16.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
-                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken1[0], names[i]);
-                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersBakken2[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken2[0], names[i]);
                                     break;
                                 case "BakkenMax":
                                     intVars = Int16.Parse(readValues[i].ToString());
@@ -1336,13 +1336,13 @@ namespace Quickstarts.Backend
                                     intVars = Int16.Parse(readValues[i].ToString());
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     tempVerpakt = intVars;
-                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)intVars, JobOrdersVerpakken2[0], names[i]);
                                     break;
                                 case "Stickers":
                                     intVars = Int16.Parse(readValues[i].ToString());
 
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
-                                    sqlData1.fillMaterialActualTabel((float)(intVars + tempVerpakt), JobOrdersVerpakken1[0], names[i]);
+                                    sqlData1.fillMaterialActualTabel((float)(intVars + tempVerpakt), JobOrdersVerpakken2[0], names[i]);
                                     break;
                                 default:
                                     break;
