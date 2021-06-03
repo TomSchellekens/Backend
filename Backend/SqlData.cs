@@ -208,5 +208,52 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Generic exception: " + ex.Message);
             }
         }
+        
+
+        public void insertCustomMaterial(Guid JobOrderId, string description, Guid processsegmentid, string quan, string eenheid)
+        {
+            
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spInsertCustomMaterial @joborderid = '"+JobOrderId+"', @description = '"+description+"', @processsegmentdbid = '"+processsegmentid+ "', @quanity = '"+quan+"', @eenheid = '"+eenheid+"'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
+
+        public void insertCustomEquip(Guid JobOrderId, string description, string quan, string eenheid)
+        {
+
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spInsertCustomEquipment @joborderid = '" + JobOrderId + "', @description = '" + description + "', @quanity = '" + quan + "', @eenheid = '" + eenheid + "'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
     }
 }

@@ -739,6 +739,8 @@ namespace Quickstarts.Backend
                                 case "GebakkenAfkeur":
                                     intVars = Int16.Parse(readValues[i].ToString());
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.insertCustomMaterial(JobOrdersBakken1[0], "Gebakken Afkeur", Guid.Parse("7ECE938B-5D65-4643-9F3D-60D3DD42AD3F"),intVars.ToString(),"Stuks"); 
+                                    
                                     break;
                                 case "Gebakken":
                                     intVars = Int16.Parse(readValues[i].ToString());
@@ -749,17 +751,18 @@ namespace Quickstarts.Backend
                                     break;
                                 case "BakkenMax":
                                     intVars = Int16.Parse(readValues[i].ToString());
+                                    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken Max", intVars.ToString(), "Celsius");
 
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
                                 case "BakkenMin":
                                     intVars = Int16.Parse(readValues[i].ToString());
-
+                                    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken Min", intVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
                                 case "BakkenAVG":
                                     fVars = float.Parse(readValues[i].ToString());
-
+                                    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken AVG", fVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 default:
@@ -1212,6 +1215,7 @@ namespace Quickstarts.Backend
                                 case "GebakkenAfkeur":
                                     intVars = Int16.Parse(readValues[i].ToString());
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
+                                    sqlData1.insertCustomMaterial(JobOrdersBakken2[0], "Gebakken Afkeur", Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366"), intVars.ToString(), "Stuks");
                                     break;
                                 case "Gebakken":
                                     intVars = Int16.Parse(readValues[i].ToString());
@@ -1222,17 +1226,17 @@ namespace Quickstarts.Backend
                                     break;
                                 case "BakkenMax":
                                     intVars = Int16.Parse(readValues[i].ToString());
-
+                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Max", intVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
                                 case "BakkenMin":
                                     intVars = Int16.Parse(readValues[i].ToString());
-
+                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Min", intVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
                                 case "BakkenAVG":
                                     fVars = float.Parse(readValues[i].ToString());
-
+                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken AVG", fVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], fVars);
                                     break;
                                 default:
