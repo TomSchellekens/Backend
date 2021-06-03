@@ -97,13 +97,13 @@ namespace Quickstarts.Backend
             }
         }
 
-        public DataTable getJobOrders(Guid SegmentId, Guid OrderId)
+        public DataTable getJobOrders(Guid SegmentId, Guid RequestId)
         {
             try
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetJobOrder @segment = '"+SegmentId+"', @orderid = '"+OrderId+"'", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spGetJobOrder @segment = '" + SegmentId + "', @requestid = '" + RequestId + "'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
@@ -121,13 +121,13 @@ namespace Quickstarts.Backend
             }
         }
 
-        public void fillPerformanceTables(Guid OrderId)
+        public void fillPerformanceTables(Guid RequestId)
         {
             try
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spOnStartingOrder @OrderId = '"+ OrderId +"'", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spOnStartingOrder @RequestId = '" + RequestId + "'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {

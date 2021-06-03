@@ -28,14 +28,14 @@ namespace Quickstarts.Backend
     
     public static class Program
     {
-        static Guid orderid;
+        static Guid requestL1, requestL2;
         static List<Guid> JobOrdersDeeg1 = new List<Guid>();
         static List<Guid> JobOrdersBakken1 = new List<Guid>();
         static List<Guid> JobOrdersVerpakken1 = new List<Guid>();
         static List<Guid> JobOrdersDeeg2 = new List<Guid>();
         static List<Guid> JobOrdersBakken2 = new List<Guid>();
         static List<Guid> JobOrdersVerpakken2 = new List<Guid>();
-        static int counterJobOrderDeeg1, counterJobOrderBakken1, counterJobOrderVerpakken1, counterJobOrderDeeg2, counterJobOrderBakken2, counterJobOrderVerpakken2;
+        static int counterJobOrderDeeg1 = 0, counterJobOrderBakken1 = 0, counterJobOrderVerpakken1 = 0, counterJobOrderDeeg2 = 0, counterJobOrderBakken2 = 0, counterJobOrderVerpakken2 = 0;
 
 
         static void Main(string[] args)
@@ -60,8 +60,8 @@ namespace Quickstarts.Backend
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
                     //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
-                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.0.1:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.0.1:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
 
@@ -183,125 +183,7 @@ namespace Quickstarts.Backend
                 if ((bool)value.Value == true)
                 {
 
-                    //Read opc variable from frontend
-                    orderid = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""orderDbId""").ToString());
-                        
-                    //DBID zijn nog van lijn 2 is om te testen
-                    List<Guid> dbids = new List<Guid>();
-                    dbids.Add(Guid.Parse("39D84F43-01C8-4753-A210-FB58392D2059")); //Deegverwerking 1 
-                    dbids.Add(Guid.Parse("7ECE938B-5D65-4643-9F3D-60D3DD42AD3F")); //Bakken 1 
-                    dbids.Add(Guid.Parse("EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD")); //Verpakken 1 
-                    dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 2
-                    dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 2 
-                    dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 2
-
-                    //Hier JobOrders ophalen voor specifiek order nummer en opslaan
-                    SqlData sqlData1 = new SqlData();
-                    sqlData1.checkConnection();
-                    sqlData1.fillPerformanceTables(orderid);
-                    for (int i = 0; i < 6; i++)
-                    {
-                        Console.WriteLine(dbids[i]);
-                        DataTable data1 = sqlData1.getJobOrders(dbids[i], orderid);
-                        switch (i)
-                        {
-                            case 0:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersDeeg1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            case 1:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersBakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            case 2:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersVerpakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            case 3:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersDeeg2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            case 4:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersBakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            case 5:
-                                for (int j = 0; j < data1.Rows.Count; j++)
-                                {
-                                    JobOrdersVerpakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
-                    counterJobOrderBakken1 = JobOrdersBakken1.Count;
-                    counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
-                    counterJobOrderDeeg2 = JobOrdersDeeg2.Count;
-                    counterJobOrderBakken2 = JobOrdersBakken2.Count;
-                    counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
-
-                    object[] values = {false, false };
-                    IList<NodeId> nodeIds = new List<NodeId>();
-                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn1"""));
-                    nodeIds.Add(new NodeId(@"ns=3;s=""db_OPCdata"".""startJobsLijn2"""));
-
-                    if (counterJobOrderDeeg1 > 0 && counterJobOrderBakken1 > 0 && counterJobOrderVerpakken1 > 0) 
-                    {
-                        values[0] = true;
-                    }
-					else
-					{
-                        values[0] = false;
- 					}
-
-					if (counterJobOrderDeeg2 > 0 && counterJobOrderBakken2 > 0 && counterJobOrderVerpakken2 > 0)
-					{
-                        values[1] = true;
-                    }
-					else
-					{
-                        values[1] = false;
-                    }
-
-                    WriteValueCollection nodesToWrite = new WriteValueCollection();
-
-                    for (int i = 0; i < nodeIds.Count; i++)
-                    {
-                        WriteValue bWriteValue = new WriteValue();
-                        bWriteValue.NodeId = nodeIds[i];
-                        bWriteValue.AttributeId = Attributes.Value;
-                        bWriteValue.Value = new DataValue();
-                        bWriteValue.Value.Value = values[i];
-                        nodesToWrite.Add(bWriteValue);
-                    }
-
-                    // Write the node attributes
-                    StatusCodeCollection results = null;
-                    DiagnosticInfoCollection diagnosticInfos;
-
-                    // Call Write Service
-                    session.Write(null,
-                                    nodesToWrite,
-                                    out results,
-                                    out diagnosticInfos);
-
-                    foreach (StatusCode writeResult in results)
-                    {
-                        Console.WriteLine("     {0}", writeResult);
-                    }
+                    
                 }
             }
         }
@@ -313,6 +195,59 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+                    if (counterJobOrderDeeg1 == 0 && counterJobOrderBakken1 == 0 && counterJobOrderVerpakken1 == 0)
+                    {
+                        //Read opc variable from frontend
+                        requestL1 = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""requestDbIdL1""").ToString());
+
+                        //DBID zijn nog van lijn 2 is om te testen
+                        List<Guid> dbids = new List<Guid>();
+                        dbids.Add(Guid.Parse("39D84F43-01C8-4753-A210-FB58392D2059")); //Deegverwerking 1 
+                        dbids.Add(Guid.Parse("7ECE938B-5D65-4643-9F3D-60D3DD42AD3F")); //Bakken 1 
+                        dbids.Add(Guid.Parse("EB06DF1A-C6B2-4727-A11D-1D0EDD10FBFD")); //Verpakken 1 
+
+
+                        //Hier JobOrders ophalen voor specifiek order nummer en opslaan
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+                        //operationsrequest db id meegeven
+                        sqlData1.fillPerformanceTables(requestL1);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Console.WriteLine(dbids[i]);
+                            DataTable data1 = sqlData1.getJobOrders(dbids[i], requestL1);
+                            switch (i)
+                            {
+                                case 0:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersDeeg1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                case 1:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersBakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                case 2:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersVerpakken1.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        counterJobOrderDeeg1 = JobOrdersDeeg1.Count;
+                        counterJobOrderBakken1 = JobOrdersBakken1.Count;
+                        counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
+                    }
+
+
+
                     Console.WriteLine(value.Value.ToString());
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
@@ -413,6 +348,56 @@ namespace Quickstarts.Backend
                 Console.WriteLine("{0} = {1}", item.DisplayName, value.Value);
                 if ((bool)value.Value == true)
                 {
+					if (counterJobOrderDeeg2 == 0 && counterJobOrderBakken2 == 0 && counterJobOrderVerpakken2 == 0 )
+					{
+                        //Read opc variable from frontend
+                        requestL2 = Guid.Parse(session.ReadValue(@"ns=3;s=""db_OPCdata"".""requestDbIdL2""").ToString());
+
+                        //DBID zijn nog van lijn 2 is om te testen
+                        List<Guid> dbids = new List<Guid>();
+                        dbids.Add(Guid.Parse("9D0541D4-F18F-482F-99BF-C9B66B32559A")); //Deegverwerking 2
+                        dbids.Add(Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366")); //Bakken 2 
+                        dbids.Add(Guid.Parse("17D4B634-3EFA-4F7D-94C8-7842F1F1AC8F")); //Verpakken 2
+
+                        //Hier JobOrders ophalen voor specifiek order nummer en opslaan
+                        SqlData sqlData1 = new SqlData();
+                        sqlData1.checkConnection();
+
+                        //operationsrequest db id meegeven
+                        sqlData1.fillPerformanceTables(requestL2);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Console.WriteLine(dbids[i]);
+                            DataTable data1 = sqlData1.getJobOrders(dbids[i], requestL2);
+                            switch (i)
+                            {
+                                case 0:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersDeeg2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                case 1:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersBakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                case 2:
+                                    for (int j = 0; j < data1.Rows.Count; j++)
+                                    {
+                                        JobOrdersVerpakken2.Add(Guid.Parse(data1.Rows[j][0].ToString()));
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        counterJobOrderDeeg2 = JobOrdersDeeg2.Count;
+                        counterJobOrderBakken2 = JobOrdersBakken2.Count;
+                        counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
+                    }
+
                     Console.WriteLine(value.Value.ToString());
                     //Ingedrienten
                     float bloem = 0, boter = 0, gist = 0, meel = 0, suiker = 0, water = 0, zout = 0;
