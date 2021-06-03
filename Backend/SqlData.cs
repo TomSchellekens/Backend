@@ -187,13 +187,13 @@ namespace Quickstarts.Backend
             }
         }
 
-        public void SetStartTime(Guid JobOrderId)
+        public void SetStartTime(Guid JobOrderId, bool isFirstSegment)
         {
             try
             {
                 using (var connection = GetConnection())
                 {
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spSetStartTimeJob @JobOrderId = '" + JobOrderId + "'", connection))
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spSetStartTimeJob @JobOrderId = '" + JobOrderId + "', @isFirstSegment = '" + isFirstSegment + "'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
