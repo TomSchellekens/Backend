@@ -12,29 +12,43 @@
          <Members>
           <Member Name="#fillMaterialActualTabel(System.Single,System.Guid,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 12:02:23Z" FixCategory="DependsOnFix">
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
              <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="152">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.fillMaterialActualTabel(float, Guid, string)' could contain the following variables 'new string[7][1]', 'Local2', 'MaterialDefinitionId'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#fillPerformanceTables(System.Guid)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 12:02:23Z" FixCategory="DependsOnFix">
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
              <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="130">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.fillPerformanceTables(Guid)' could contain the following variables 'Local2'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#getIngredients(System.Guid)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 12:02:23Z" FixCategory="DependsOnFix">
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
              <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="82">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.getIngredients(Guid)' could contain the following variables 'Local2'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#getJobOrders(System.Guid,System.Guid)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 12:02:23Z" FixCategory="DependsOnFix">
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
              <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="106">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.getJobOrders(Guid, Guid)' could contain the following variables 'Local2'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetEndTime(System.Guid)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="174">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.SetEndTime(Guid)' could contain the following variables 'Local2'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetStartTime(System.Guid,System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-06-03 13:13:06Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\schel\source\repos\TomSchellekens\Backend\Backend" File="SqlData.cs" Line="196">The query string passed to 'SqlDataAdapter.SqlDataAdapter(string, SqlConnection)' in 'SqlData.SetStartTime(Guid, bool)' could contain the following variables 'Local2', 'new string[5][3]'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>
           </Member>
