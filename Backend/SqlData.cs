@@ -164,5 +164,49 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Generic exception: " + ex.Message);
             }
         }
+
+        public void SetEndTime(Guid JobOrderId)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spSetEndTime @JobOrderId = '" + JobOrderId +"'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
+
+        public void SetStartTime(Guid JobOrderId)
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spSetStartTimeJob @JobOrderId = '" + JobOrderId + "'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
     }
 }

@@ -518,6 +518,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersDeeg1[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -562,6 +565,7 @@ namespace Quickstarts.Backend
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
+                        sqlData1.SetEndTime(JobOrdersDeeg1[0]);
 
 
                         for (int i = 0; i < readValues.Count; i++)
@@ -694,6 +698,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersBakken1[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -722,6 +729,7 @@ namespace Quickstarts.Backend
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
+                        sqlData1.SetEndTime(JobOrdersBakken1[0]);
 
 
                         for (int i = 0; i < readValues.Count; i++)
@@ -826,6 +834,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersVerpakken1[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -848,6 +859,7 @@ namespace Quickstarts.Backend
                         int tempVerpakt = 0;
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
+                        sqlData1.SetEndTime(JobOrdersVerpakken1[0]);
 
 
                         for (int i = 0; i < readValues.Count; i++)
@@ -988,6 +1000,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersDeeg2[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -1024,6 +1039,7 @@ namespace Quickstarts.Backend
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
+                        sqlData1.SetEndTime(JobOrdersDeeg2[0]);
 
 
                         for (int i = 0; i < readValues.Count; i++)
@@ -1154,6 +1170,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersBakken2[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -1183,6 +1202,7 @@ namespace Quickstarts.Backend
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
+                        sqlData1.SetEndTime(JobOrdersBakken2[0]);
 
 
                         for (int i = 0; i < readValues.Count; i++)
@@ -1288,6 +1308,9 @@ namespace Quickstarts.Backend
                         break;
                     case 30:
                         Console.WriteLine("Execute");
+                        SqlData sqlDataStart = new SqlData();
+                        sqlDataStart.checkConnection();
+                        sqlDataStart.SetStartTime(JobOrdersVerpakken2[0]);
                         break;
                     case 50:
                         Console.WriteLine("Complete");
@@ -1311,7 +1334,7 @@ namespace Quickstarts.Backend
                         int tempVerpakt = 0;
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
-
+                        sqlData1.SetEndTime(JobOrdersVerpakken2[0]);
 
                         for (int i = 0; i < readValues.Count; i++)
                         {
