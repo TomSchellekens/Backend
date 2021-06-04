@@ -25,6 +25,7 @@ using System.Data.SqlClient;
 
 namespace Quickstarts.Backend
 {
+
     
     public static class Program
     {
@@ -141,7 +142,7 @@ namespace Quickstarts.Backend
                 session.AddSubscription(subscription);
                 subscription.Create();
                 session.PublishError += (sender, e) => { Console.WriteLine("Error detected."); };
-				
+
 
                 while (!session.KeepAliveStopped)
                 {
