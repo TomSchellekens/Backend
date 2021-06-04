@@ -975,6 +975,10 @@ namespace Quickstarts.Backend
                         JobOrdersVerpakken1.Remove(JobOrdersVerpakken1[0]);
                         counterJobOrderVerpakken1 = JobOrdersVerpakken1.Count;
                         Console.WriteLine("Count Job Order Verpakken 1: {0}",counterJobOrderVerpakken1);
+                        if (counterJobOrderVerpakken1 == 0)
+                        {
+                            sqlData1.endRequestOrder(requestL1);
+                        }
                         break;
                     case 70:
                         Console.WriteLine("Hold");
@@ -1450,6 +1454,10 @@ namespace Quickstarts.Backend
                         JobOrdersVerpakken2.Remove(JobOrdersVerpakken2[0]);
                         counterJobOrderVerpakken2 = JobOrdersVerpakken2.Count;
                         Console.WriteLine("Count Job Order Verpakken 2: {0}", counterJobOrderVerpakken2);
+						if (counterJobOrderVerpakken2 == 0)
+						{
+                            sqlData1.endRequestOrder(requestL2);
+						}
                         break;
                     case 70:
                         Console.WriteLine("Hold");

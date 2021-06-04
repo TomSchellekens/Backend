@@ -232,6 +232,7 @@ namespace Quickstarts.Backend
                 Console.WriteLine("Generic exception: " + ex.Message);
             }
         }
+        
 
         public void insertCustomEquip(Guid JobOrderId, string description, string quan, string eenheid)
         {
@@ -241,6 +242,29 @@ namespace Quickstarts.Backend
                 using (var connection = GetConnection())
                 {
                     using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spInsertCustomEquipment @joborderid = '" + JobOrderId + "', @description = '" + description + "', @quanity = '" + quan + "', @eenheid = '" + eenheid + "'", connection))
+                    {
+                        using (DataTable dataTable = new DataTable())
+                        {
+                            sqlDataAdapter.Fill(dataTable);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Generic exception: " + ex.Message);
+            }
+        }
+
+        public void endRequestOrder(Guid requestid)
+        {
+
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("exec spCompleteRequest @requestid = '"+requestid+"'", connection))
                     {
                         using (DataTable dataTable = new DataTable())
                         {
