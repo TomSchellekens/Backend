@@ -60,8 +60,8 @@ namespace Quickstarts.Backend
 
                     EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(application.ApplicationConfiguration);
 
-                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
-                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
+                    var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.8.145:4840", false);
+                    //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.1.145:4840", false);
                     //var endpointDescription = CoreClientUtils.SelectEndpoint("opc.tcp://192.168.0.1:4840", false);
 
                     ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, endpointDescription, endpointConfiguration);
@@ -568,6 +568,8 @@ namespace Quickstarts.Backend
                         sqlData1.checkConnection();
                         sqlData1.SetEndTime(JobOrdersDeeg1[0]);
 
+						Console.WriteLine("Start Read Actuals Line 1: ");
+
 
                         for (int i = 0; i < readValues.Count; i++)
 						{
@@ -761,11 +763,11 @@ namespace Quickstarts.Backend
                                     sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken Min", intVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                case "BakkenAVG":
-                                    fVars = float.Parse(readValues[i].ToString());
-                                    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken AVG", fVars.ToString(), "Celsius");
-                                    Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    break;
+                                //case "BakkenAVG":
+                                //    fVars = float.Parse(readValues[i].ToString());
+                                //    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken AVG", fVars.ToString(), "Celsius");
+                                //    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                //    break;
                                 default:
                                     break;
                             }
@@ -1220,7 +1222,7 @@ namespace Quickstarts.Backend
                                 case "GebakkenAfkeur":
                                     intVars = Int16.Parse(readValues[i].ToString());
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
-                                    sqlData1.insertCustomMaterial(JobOrdersBakken2[0], "Gebakken Afkeur", Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366"), intVars.ToString(), "Stuks");
+                                    sqlData1.insertCustomMaterial(JobOrdersBakken2[0], "Gebakken Afkeur", Guid.Parse("56B71358-4F47-4A27-A4A9-2CABFEBCF366"), readValues[i].ToString(), "Stuks");
                                     break;
                                 case "Gebakken":
                                     intVars = Int16.Parse(readValues[i].ToString());
@@ -1231,19 +1233,19 @@ namespace Quickstarts.Backend
                                     break;
                                 case "BakkenMax":
                                     intVars = Int16.Parse(readValues[i].ToString());
-                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Max", intVars.ToString(), "Celsius");
+                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Max", readValues[i].ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
                                 case "BakkenMin":
                                     intVars = Int16.Parse(readValues[i].ToString());
-                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Min", intVars.ToString(), "Celsius");
+                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Min", readValues[i].ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                case "BakkenAVG":
-                                    fVars = float.Parse(readValues[i].ToString());
-                                    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken AVG", fVars.ToString(), "Celsius");
-                                    Console.WriteLine("{0} = {1}", names[i], fVars);
-                                    break;
+                                //case "BakkenAVG":
+                                //    fVars = float.Parse(readValues[i].ToString());
+                                //    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken AVG", readValues[i].ToString(), "Celsius");
+                                //    Console.WriteLine("{0} = {1}", names[i], fVars);
+                                //    break;
                                 default:
                                     break;
                             }
