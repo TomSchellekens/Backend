@@ -729,6 +729,7 @@ namespace Quickstarts.Backend
                         session.ReadValues(nodeIdsRead, types, out readValues, out readResult);
                         int intVars;
                         float fVars;
+                        string strFloat;
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
@@ -763,12 +764,14 @@ namespace Quickstarts.Backend
                                     sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken Min", intVars.ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                //case "BakkenAVG":
-                                //    fVars = float.Parse(readValues[i].ToString());
-                                //    sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken AVG", fVars.ToString(), "Celsius");
-                                //    Console.WriteLine("{0} = {1}", names[i], fVars);
-                                //    break;
-                                default:
+								case "BakkenAVG":
+									fVars = float.Parse(readValues[i].ToString());
+                                    strFloat = fVars.ToString();
+                                    strFloat.Replace(",", ".");
+									sqlData1.insertCustomEquip(JobOrdersBakken1[0], "Bakken AVG", strFloat, "Celsius");
+									Console.WriteLine("{0} = {1}", names[i], fVars);
+									break;
+								default:
                                     break;
                             }
                         }
@@ -1209,6 +1212,7 @@ namespace Quickstarts.Backend
 
                         int intVars;
                         float fVars;
+                        string strFloat;
 
                         SqlData sqlData1 = new SqlData();
                         sqlData1.checkConnection();
@@ -1241,12 +1245,14 @@ namespace Quickstarts.Backend
                                     sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken Min", readValues[i].ToString(), "Celsius");
                                     Console.WriteLine("{0} = {1}", names[i], intVars);
                                     break;
-                                //case "BakkenAVG":
-                                //    fVars = float.Parse(readValues[i].ToString());
-                                //    sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken AVG", readValues[i].ToString(), "Celsius");
-                                //    Console.WriteLine("{0} = {1}", names[i], fVars);
-                                //    break;
-                                default:
+								case "BakkenAVG":
+									fVars = float.Parse(readValues[i].ToString());
+                                    strFloat = fVars.ToString();
+                                    strFloat.Replace(",",".");
+									sqlData1.insertCustomEquip(JobOrdersBakken2[0], "Bakken AVG", strFloat, "Celsius");
+									Console.WriteLine("{0} = {1}", names[i], fVars);
+									break;
+								default:
                                     break;
                             }
                         }
